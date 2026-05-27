@@ -1,5 +1,6 @@
 #set page(height: auto)
 #set par(justify: true)
+#set math.mat(delim: "[")
 = What is a Tensor
 == Free Space and Tensor Product
 We are allowed to perform additions and multiplications on vectors. A natural question is whether we can perform a multiplication of two vectors. It is, however, unintuitive to imagine the result of such multiplication. Therefore, we would first define the *free vector space*, by just _stapling_ two vectors together as the result of the multiplications. Then, we will see how to make sense of the result.
@@ -242,6 +243,11 @@ $
 Thus, any operations performed between different tensor products of $u$, $v$, and $w$ can be performed by first transforming the tensors through the isomorphic mapping into the same space and then performing the operations.\
 For instance, if we want to add elements between $(U times.o V) times.o W$ and $U times.o (V times.o W)$, we can first transform the elements in $(U times.o V) times.o W$ into $U times.o (V times.o W)$ through the isomorphic mapping and then perform the addition.\
 
+=== Simple Tensors
+Consider the tensor product of $n$ vector spaces $V_1, dots.c, V_n$ with the field $F$. A *simple tensor* is an element of the form $v_1 times.o v_2 dots.c times.o v_n$ where $v_i in V_i$ for all $i$.\
+
+One can find *a sets of simple tensors* that spans the tensor product of $n$ vector spaces. For instance, if ${v_i^j}_(i in I_j)$ is a basis of $V_j$ for all $j$, then the set
+
 === Universal Property of Tensor Product
 The *universal property* of the tensor product states that for any vector space $X$ and any *multilinear map* $f : V_1 times dots.c times V_n mapsto X$, there exists a *unique linear map* $g : V_1 times.o dots.c times.o V_n mapsto X$ such that
 $
@@ -374,7 +380,6 @@ As ${f_j}_(j in I)$ contains the same number of vectors as the basis of $V$, the
 One can also define the dual space of the dual space of $V$, denoted by $V^(**)$. The elements of $V^(**)$ are linear maps from $V^*$ to $F$. One can show that $V^(**)$ is *canonically isomorphic* to $V$ itself, for this reason, we will practically treat $V$ as the dual of $V^*$.
 
 == Contracting Tensors
-=== Contraction
 Although we defined previously tensor products between two arbitrary vector spaces, we are particularly interested in the tensor product between a vector space and its dual space, that is, $V times.o V^*$. This is useful because it allows us to define the *contraction* of a tensor.\
 
 Let's start with a concrete example, consider $RR^2 times.o (RR^2)^*$. This particular tensor product is called *rank(1,1) tensor*, in general, a tensor product
@@ -386,8 +391,44 @@ Let $e_1, e_2$ be the standard basis of $RR^2$ and $e^1, e^2$ be the dual basis 
 $
   e^i (e_j) = cases(1", if" i = j, 0", if" i != j),
 $
-condensed notation for above is $e^i (e_j) = delta^i_j$, this is called the *Kronecker delta*. Then, the set
+condensed notation for the above is $e^i (e_j) = delta^i_j$, called the *Kronecker delta*.\
+Then, the set
 $
   {e_i times.o e^j}_(i, j = 1, 2)
 $
-are the basis of $RR^2 times.o (RR^2)^*$.
+are the basis of $RR^2 times.o (RR^2)^*$. Thus, a typical element of $RR^2 times.o (RR^2)^*$ has the following form:
+$
+  T = sum_(i=1)^2 sum_(j=1)^2 T^(i)_j (e_i times.o e^j),
+$
+or, in *Einstein summation convention*, we can write
+$
+  T = T^i_j (e_i times.o e^j).
+$
+Here, the *Einstein summation convention* is a notation that we will sum over any index appeared both as upper and lower indices. For instance, $v_i e^i = sum_(i=1)^n v_i e^i.$\
+We know that $RR^2 times.o (RR^2)^*$ is isomorphic to the vector space of $2 times 2$ real matrices. Hence, we can represent $T$ as a $2 times 2$ matrix as follows:
+$
+  T = T^i_j (e_i times.o e^j) tilde.equiv mat(
+    T^1_1, T^1_2;
+    T^2_1, T^2_2
+  ) = bold(T).
+$
+The *contraction* of $T$ evaluates the tensor product by the duality between $RR^2$ and $(RR^2)^*$. In particular, the contraction of $T = T^i_j (e_i times.o e^j)$ is defined as follows:
+$
+  C(T) = C(T^i_j (e_i times.o e^j)) = T^i_j C(e_i times.o e^j) = T^i_j e^j (e_i).
+$
+Since $e^j (e_i) = delta^j_i$, the only terms that survive in the above summation are those with $i = j$. Therefore, we have
+$
+  C(T) = T^i_i = sum_(i=1)^2 T^i_i = "tr"(bold(T)).
+$
+The contraction of $T$ is just the *trace of the matrix* representation of $T$.
+=== Contraction of Tensors
+The *contraction operator* $C^k_l$ acts on a rank(m,n) *simple tensor*
+$
+  v = (v^1 times.o dots.c times.o v^m times.o v_1 times.o dots.c times.o v_j)
+$
+by evaluating the $k$-th upper index and the $l$-th lower index. In particular, we have
+$
+  C^k_l (v) = v^k (v_l) (v^1 times.o dots.c times.o hat(v^k, size: #150%) times.o dots.c times.o v^m times.o v_1 times.o dots.c times.o hat(v_l, size: #150%) times.o dots.c times.o v_j),
+$
+where $hat(v^k, size: #150%)$ and $hat(v_l, size: #150%)$ means that $v^k$ and $v_l$ are removed from the tensor product.\
+=== Multiplication of Matrix
