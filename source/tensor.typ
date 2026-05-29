@@ -1,7 +1,7 @@
 #set page(height: auto)
 #set par(justify: true)
 #set math.mat(delim: "[")
-= What is a Tensor
+= Tensor
 == Free Space and Tensor Product
 We are allowed to perform additions and multiplications on vectors. A natural question is whether we can perform a multiplication of two vectors. It is, however, unintuitive to imagine the result of such multiplication. Therefore, we would first define the *free vector space*, by just _stapling_ two vectors together as the result of the multiplications. Then, we will see how to make sense of the result.
 === Free Space
@@ -431,4 +431,74 @@ $
   C^k_l (v) = v^k (v_l) (v^1 times.o dots.c times.o hat(v^k, size: #150%) times.o dots.c times.o v^m times.o v_1 times.o dots.c times.o hat(v_l, size: #150%) times.o dots.c times.o v_j),
 $
 where $hat(v^k, size: #150%)$ and $hat(v_l, size: #150%)$ means that $v^k$ and $v_l$ are removed from the tensor product.\
-=== Multiplication of Matrix
+Let's define *the contraction of a general rank(m,n) tensor*. Consider a general rank(m,n) tensor, as simple tensors span the tensor product, we can decompose the general tensor as a linear combination of simple tensors $S_i$. In particular, we have
+$
+  C^k_l (T) = C^k_l (sum_i T_i S_i) = sum_i T_i C^k_l (S_i).
+$
+We can also decompose the general tensor as a linear combination of basis vectors, say
+$
+  T = T^(i_1 dots.c i_m)_(j_1 dots.c j_n) (e_(i_1) times.o dots.c times.o e_(i_m) times.o e^(j_1) times.o dots.c times.o e^(j_n)),
+$
+where ${e_i}_(i in I)$ is a basis of $V$ and ${e^j}_(j in I)$ is the dual basis of ${e_i}_(i in I)$. Then, we have
+$
+  C^k_l (T) =& T^(i_1 dots.c i_m)_(j_1 dots.c j_n) C^k_l (e_(i_1) times.o dots.c times.o e_(i_m) times.o e^(j_1) times.o dots.c times.o e^(j_n))\
+  =& T^(i_1 dots.c i_m)_(j_1 dots.c j_n) e^(j_k) (e_(i_l)) (e_(i_1) times.o dots.c times.o hat(e_(i_l), size: #150%) times.o dots.c times.o e_(i_m) times.o e^(j_1) times.o dots.c times.o hat(e^(j_k), size: #150%) times.o dots.c times.o e^(j_n)).
+$
+The only terms that survive in the above summation are those with $i_l = j_k$. Therefore, we have
+$
+  T^(i_1 dots.c i_m)_(j_1 dots.c j_n) e^(j_k) (e_(i_l)) = T^(i_1 dots.c i_m)_(j_1 dots.c j_n) delta^(j_k)_(i_l) = sum_(i_l = j_k) T^(i_1 dots.c i_m)_(j_1 dots.c j_n).
+$
+Thus, the contraction of $T$ is just the summation of the coordinates of $T$ with $i_l = j_k$.
+$
+  C^k_l (T) = sum_(i_l = j_k) T^(i_1 dots.c i_m)_(j_1 dots.c j_n) (e_(i_1) times.o dots.c times.o hat(e_(i_l), size: #150%) times.o dots.c times.o e_(i_m) times.o e^(j_1) times.o dots.c times.o hat(e^(j_k), size: #150%) times.o dots.c times.o e^(j_n)).
+$
+
+=== Matrix Multiplication as Contraction of Tensors
+This seems a bit abstract, let's do some concrete examples to see how the contraction of a tensor works.\
+Consider two tensors from $RR^2 times.o (RR^2)^*$, say
+$
+  T = T^i_j (e_i times.o e^j) tilde.equiv mat(
+    T^1_1, T^1_2;
+    T^2_1, T^2_2
+  ) = bold(T) "and" S = S^i_j (e_i times.o e^j) tilde.equiv mat(
+    S^1_1, S^1_2;
+    S^2_1, S^2_2
+  ) = bold(S).
+$
+If we perform the tensor product between $T$ and $S$, we have
+$
+  T times.o S = T^i_j S^k_l (e_i times.o e^j times.o e_k times.o e^l).
+$
+Let's apply the contraction operation at the middle two indices, that is, we evaluate the last upper index and the first lower index. Then, we have
+$
+  C^2_1 (T times.o S) = & T^i_j S^k_l C^2_1 (e_i times.o e^j times.o e_k times.o e^l) \
+  = & T^i_j S^k_l e^j (e_k) (e_i times.o hat(e^j, size: #150%) times.o hat(e_k, size: #150%) times.o e^l) \
+  =& T^i_j S^k_l delta^j_k (e_i times.o e^l) \
+  =& sum_(j=k) T^i_j S^k_l (e_i times.o e^l) \
+  =& (T^1_1 S^1_1 + T^1_2 S^2_1) (e_1 times.o e^1) + (T^1_1 S^1_2 + T^1_2 S^2_2) (e_1 times.o e^2)\
+  &+ (T^2_1 S^1_1 + T^2_2 S^2_1) (e_2 times.o e^1) + (T^2_1 S^1_2 + T^2_2 S^2_2) (e_2 times.o e^2)\
+  tilde.equiv& mat(
+    T^1_1 S^1_1 + T^1_2 S^2_1, T^1_1 S^1_2 + T^1_2 S^2_2;
+    T^2_1 S^1_1 + T^2_2 S^2_1, T^2_1 S^1_2 + T^2_2 S^2_2
+  ) = bold(T) bold(S).
+$
+Notice how the contraction of $T times.o S$ is just the matrix multiplication of the matrix representation of $T$ and the matrix representation of $S$.\
+
+== Basis Change of Tensors
+As in vectors, we can also perform basis change for tensors. Let's first discuss what happens when we perform basis change for the vector space and its dual space.\
+Let $V$ be a vector space with the field $F$ and ${cal(e)_i}_(i in I)$ be a basis of $V$. Then, the dual basis of ${cal(e)_i}_(i in I)$ is ${cal(e)^j}_(j in I)$, where
+$
+  cal(e)^j (cal(e)_i) = delta^j_i.
+$
+Now, let's consider another basis of $V$, say ${cal(f)_i}_(i in I)$. A vector $v in V$ can be represented in both bases as follows:
+$
+  v = v^i cal(e)_i = v^('i) cal(f)_i.
+$
+Let's say that for a particular $i$, we have $cal(e)_i = E^j_i cal(f)_j$. Then, we have
+$
+  v^i cal(e)_i = v^i E^j_i cal(f)_j = v^('i) cal(f)_i.
+$
+Hence,
+$
+  v^('i) = v^j E_j^i.
+$
