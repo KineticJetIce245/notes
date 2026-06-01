@@ -34,7 +34,10 @@
       text(fill: red, weight: "bold")[?Label?]
     } else {
       let target-loc = matches.last().location()
-      let sc = section-counter.at(target-loc).last() + 1
+      let sc = section-counter.at(target-loc).last()
+      if title != "Proof" {
+        sc += 1
+      }
       let num = [
         #counter(heading).at(target-loc).map(str).join(".")\.#sc]
       link(target-loc)[*#title #num*]
