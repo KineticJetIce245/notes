@@ -371,8 +371,27 @@ Two sets composed of very different mathematical objects might be _structurally 
 
 #pagebreak()
 
+#section(theorem, subtitle: [Linear Dependent Vectors])[
+  Let $S$ be a set of vectors in a vector space $V$. Let $W$ be the *largest subset* of $S$ that is linear independent. Then, every vector in $S$ can be expressed as a linear combination of vectors in $W$.
+  #section(proof)[
+    Let $W = {w_1, w_2, dots.c, w_n}$, let $s in S$ be an arbitrary vector in $S$ that is not in $W$. Since $W$ is the largest subset of $S$ that is linear independent, we have that $W union {s}$ is linear dependent. Hence, there exist scalars $lambda^1, dots.c, lambda^n, lambda^(n+1) in F$ such that
+    $
+      sum_(i = 1)^n lambda^i w_i + lambda^(n+1) s = 0.
+    $
+    If $lambda^(n+1) = 0$, then the equation above reduces to
+    $
+      sum_(i = 1)^n lambda^i w_i = 0,
+    $
+    since $W$ is linear independent, we have $lambda^1 = lambda^2 = ... = lambda^n = 0$, which contradicts the assumption that $W union {s}$ is linear dependent. Hence, we have $lambda^(n+1) != 0$. This means that we can rearrange the equation above to express $s$ as a linear combination of vectors in $W$, that is,
+    $
+      s = - sum_(i = 1)^n lambda^i/lambda^(n+1) w_i.
+    $
+    #align(right)[$qed$]
+  ]
+]
+
 #section(definition, subtitle: [Basis])[
-  A #concept[basis] of a vector space $V$ is an *ordered list* of vectors $B subset.eq V$ that is both *linearly independent* and *spans* $V$. That is, $B$ is a basis of $V$ if
+  A #concept[basis] of a vector space $V$ is an *set* of vectors $B subset.eq V$ that is both *linearly independent* and *spans* $V$. That is, $B$ is a basis of $V$ if
   + $B$ is linear independent.
   + $"span"(B)$ = V.
 ]
@@ -403,8 +422,6 @@ Two sets composed of very different mathematical objects might be _structurally 
     #align(right)[$qed$]
   ]
 ]
-
-#pagebreak()
 
 #section(theorem, subtitle: [Intersection of Subspaces])[
   The intersection of any collection of subspaces of a vector space $V$ is also a subspace of $V$.
@@ -444,8 +461,6 @@ Two sets composed of very different mathematical objects might be _structurally 
   ]
 ]
 
-#pagebreak()
-
 #section(theorem, subtitle: [Span of Subsets])[
   Let $W$ be a subset of a vector space $V$. Then, the span of $W$ is the smallest subspace of $V$ that contains $W$. In other words, let $S$ be the collection of all subspaces of $V$ that contain $W$, then
   $
@@ -479,6 +494,87 @@ Two sets composed of very different mathematical objects might be _structurally 
   Let $V$ and $W$ be two vector spaces over the same field $F$. An *isomorphism* between $V$ and $W$ is a *bijective linear transformation* $T: V mapsto W$. If such an isomorphism exists, we say that $V$ and $W$ are #concept[isomorphic] to each other.
 ]
 
+#section(corollary, subtitle: [Isomorphism Preserves Linear Independence])[
+  Let $V$ and $W$ be two vector spaces over the same field $F$. If there is an isomorphism $T: V mapsto W$ between $V$ and $W$, then for any set of vectors $S subset.eq V$, we have that $S$ is linear independent if and only if $T(S) := {T(s): s in S}$ is linear independent.
+]
+
+#section(theorem, subtitle: [Condition of Being Injective])[
+  Let $V$ and $W$ be two vector spaces over the same field $F$. A linear transformation $T: V mapsto W$ is injective if and only if *it only maps the zero vector in $V$ to the zero vector in $W$*, that is, $T(v) = 0 <=> v = 0$.
+  #section(proof)[
+    Let $T$ be an injective linear transformation between $V$ and $W$, if there is a $c != 0$ such that $T(c) = 0$. Then, for any $v in V$, we have
+    $
+      T(v + c) = T(v) + T(c) = T(v) + 0 = T(v).
+    $
+    This means that $T$ is not injective, which contradicts the assumption. Hence, if $T$ is injective, we have $T(v) = 0 <=> v = 0$.
+
+    On the other hand, if $T$ is a linear transformation such that $T(v) = 0 <=> v = 0$, if there is a pair of vector $v$ and $w$ such that $T(v) = T(w)$ but $v != w$. Then, we have
+    $
+      T(v - w) = T(v) - T(w) = 0.
+    $
+    However, since $T(v) = 0 <=> v = 0$, we have $v - w = 0$, which implies that $v = w$. This contradicts the assumption that $v != w$. Hence, $T$ is injective.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Condition of Being Isomorphism])[
+  Let $V$ and $W$ be two vector spaces over the same field $F$. A linear transformation $T: V mapsto W$ is an isomorphism if and only if *it only maps the zero vector in $V$ to the zero vector in $W$* and it is *surjective*. That is,
+  + $T(v) = 0 <=> v = 0$.
+  + For all $w in W$, there exists a $v in V$ such that $T(v) = w$.
+]<ConBeIso>
+
+#section(theorem, subtitle: [The Kernel of a Linear Transformation])[
+  Let $T$ be a linear transformation between two vector spaces $V$ and $W$ over the same field $F$. The set of all vectors in $V$ that are mapped to the zero vector in $W$ by $T$, called #concept[kernel] or #concept[null space] of $T$, denoted by $ker(T)$, is a subspace of $V$.
+  #section(proof)[
+    Let $a in F$ and $u, v in ker(T)$, we shall show that $a u + v in ker(T)$. Since $u, v in ker(T)$, we have $T(u) = T(v) = 0$. Hence, we have
+    $
+      T(a u + v) = a T(u) + T(v) = a 0 + 0 = 0,
+    $
+    that is, $a u + v in ker(T)$. This shows that $ker(T)$ is a subspace of $V$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [The Image of a Linear Transformation])[
+  Let $T$ be a linear transformation between two vector spaces $V$ and $W$ over the same field $F$. The set of all vectors in $W$ that are mapped to by some vector in $V$ by $T$, called #concept[image] or #concept[range] of $T$, denoted by $im(T)$, is a subspace of $W$.
+  #section(proof)[
+    Let $a in F$ and $u, v in im(T)$, we shall show that $a u + v in im(T)$. Since $u, v in im(T)$, there exist vectors $x, y in V$ such that $T(x) = u$ and $T(y) = v$. Hence, we have
+    $
+      T(a x + y) = a T(x) + T(y) = a u + v,
+    $
+    that is, $a u + v in im(T)$. This shows that $im(T)$ is a subspace of $W$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Linear Transformations between Isomorphic Vector Spaces])[
+  Let $U$, $V$, and $W$ be two vector spaces over the same field $F$. If there is an isomorphism $I: V mapsto W$ between $V$ and $W$, then for any linear transformation $T_V: V mapsto U$, there is a unique linear transformation $T_W: W mapsto U$ such that for all $v in V$, we have
+  $
+    T_V (v) = T_W compose I (v).
+  $
+  #section(proof)[
+    Let's define $T_W: W mapsto U$ as follows: for all $w in W$, we have
+    $
+      T_W (w) := T_V compose I^(-1)(w).
+    $
+    Hence, for all $v in V$, we have
+    $
+      T_W compose I(v) = T_V compose I^(-1) compose I(v) = T_V (v).
+    $
+    We will omit the proof that $T_W$ is a linear transformation, which can be easily verified by directly applying the definition of linear transformation and the fact that $I$ is an isomorphism.\
+    Finally, let's show that $T_W$ is unique. Let $T_W^'$ be another linear transformation such that for all $v in V$, we have
+    $
+      T_V (v) = T_W^' compose I (v).
+    $
+    Since for all $v in V$, there is a unique $w in W$ such that $I(v) = w$, we have
+    $
+      T_V (v) = T_V compose I^(-1) (w) = T_W compose I compose I^(-1) (w) = T_W^' (w) = T_W (w).
+    $
+    Hence, this shows that $T_W$ is unique.
+    #align(right)[$qed$]
+  ]
+]<LinTranIsoVecSpace>
+
+
 
 #pagebreak()
 == Cartesian Space
@@ -507,7 +603,7 @@ Two sets composed of very different mathematical objects might be _structurally 
 ]
 
 #section(theorem, subtitle: [Standard Basis])[
-  Let $F^n$ be a vector space of n-tuples over a field $F$. Then, the set of n-tuples
+  Let $F^n$ be a vector space of n-tuples over a field $F$. Then, the *ordered list* of n-tuples
   $
     frak(B) = {e_1 = vec(1, 0, dots.v, 0), e_2 = vec(0, 1, dots.v, 0), dots.c, e_n = vec(0, 0, dots.v, 1)}
   $
@@ -721,6 +817,136 @@ $
   ]
 ]
 
+#section(corollary, subtitle: [Alternative Form of Representing Matrices])[
+  Let $bold(T)$ be an $n$ by $m$ matrix. We can also represent $bold(T)$ as follows:
+  $
+    bold(T) = mat(
+      |, , |;
+      T_1, dots.c, T_m;
+      |, , |
+    ),
+  $
+  where $T_1, dots.c, T_m$ are the columns of $bold(T)$. On the other hand, we can also represent $bold(T)$ as follows:
+  $
+    bold(T) = mat(
+      dash.em, T^1, dash.em;
+      , dots.v, ;
+      dash.em, T^n, dash.em;
+    ),
+  $
+  where $T^1, dots.c, T^n$ are the rows of $bold(T)$.
+
+  We can treat $T_1, dots.c, T_m$ as vectors in $F^n$ and $T^1, dots.c, T^n$ as vectors in $F^m$ or a $n times 1$ and a $m times 1$ matrix respectively depending on the context.
+  If we treat them as matrices, then we can rewrite the matrix multiplication of $bold(S)$ and $bold(T)$ as follows:
+  $
+    bold(S) bold(T) = mat(
+      dash.em, S^1, dash.em;
+      , dots.v, ;
+      dash.em, S^p, dash.em;
+    ) mat(
+      |, , |;
+      T_1, dots.c, T_m;
+      |, , |
+    ) = mat(
+      S^1 T_1, dots.c, S^1 T_m;
+      dots.v, dots.down, dots.v;
+      S^p T_1, dots.c, S^p T_m;
+    ),
+  $
+  where
+  $
+    S^i T_j = mat(S^i_1, dots.c, S^i_n) mat(T^1_j; dots.v; T^n_j) = sum_(k = 1)^n S_k^i T_j^k.
+  $
+  If we treat them as vectors, then we can rewrite the matrix multiplication of $bold(S)$ and $bold(T)$ as follows:
+  $
+    bold(S) bold(T) = bold(S) mat(
+      |, , |;
+      T_1, dots.c, T_m;
+      |, , |
+    ) = mat(
+      |, , |;
+      bold(S) (T_1), dots.c, bold(S) (T_m);
+      |, , |
+    ).
+  $
+]
+
+#section(definition, subtitle: [Identity Matrix])[
+  The #concept[identity matrix] of size $n$ is the $n$ by $n$ matrix
+  $
+    bold(I)_n = mat(
+      1, 0, dots.c, 0;
+      0, 1, dots.c, 0;
+      dots.v, dots.v, dots.down, dots.v;
+      0, 0, dots.c, 1
+    ).
+  $
+]
+
+#section(corollary, subtitle: [Identity Matrix as a Linear Transformation])[
+  The identity matrix $bold(I)_n$ represents the identity linear transformation $id: F^n mapsto F^n$ defined by $id(v) = v$ for all $v in F^n$. Since
+  $
+    bold(I)_n v = mat(
+      1, 0, dots.c, 0;
+      0, 1, dots.c, 0;
+      dots.v, dots.v, dots.down, dots.v;
+      0, 0, dots.c, 1
+    ) vec(v^1, v^2, dots.v, v^n) = vec(v^1, v^2, dots.v, v^n) = v,
+  $
+  for all $v in F^n$.
+]
+
+#section(definition, subtitle: [Inverse of a Matrix])[
+  Let $bold(A)$ be a matrix. If there exists a matrix $bold(B)$ such that
+  $
+    bold(A) bold(B) = bold(B) bold(A) = bold(I).
+  $
+  then we say that $bold(B)$ is the #concept[inverse] of $bold(A)$ and we denote it by $bold(A)^(-1)$.
+]
+
+#section(corollary, subtitle: [The Shape of an Invertible Matrix])[
+  If $bold(T)$ is an invertible matrix, then $bold(T)$ must be a square matrix, that is, the number of rows and the number of columns of $bold(T)$ must be the same.
+  #section(proof)[
+    Since for $bold(T)$ to be invertible, there must exist a matrix $bold(T)^(-1)$ such that
+    $
+      bold(T) bold(T)^(-1) = bold(T)^(-1) bold(T) = bold(I),
+    $
+    the only way for this to hold is that $bold(T)$ and $bold(T)^(-1)$ are both square matrices of the same size. Hence, if $bold(T)$ is an invertible matrix, then $bold(T)$ must be a square matrix.
+    #align(right)[$qed$]
+  ]
+]
+
+
+#section(corollary, subtitle: [Invertible Matrix is an Isomorphism])[
+  Let $bold(T)$ be an invertible matrix. Then, the linear transformation, $T$, represented by $bold(T)$ is an isomorphism.
+  #section(proof)[
+    Let $T: F^n mapsto F^n$ be the linear transformation represented by $bold(T)$. Since $bold(T)$ is invertible, there exists a matrix $bold(T)^(-1)$ such that
+    $
+      bold(T) bold(T)^(-1) v = bold(T)^(-1) bold(T) v = bold(I) v.
+    $
+    This shows that $T$ is a bijective linear transformation, hence an isomorphism.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Columns of an Invertible Matrix Are Independent])[
+  Let $bold(T)$ be an invertible matrix. Then, the columns of $bold(T)$ are linearly independent.
+  #section(proof)[
+    Let $bold(T)$ be an invertible matrix and let $T: F^m mapsto F^n$ be the linear transformation represented by $bold(T)$. Since $bold(T)$ is invertible, $T$ is an isomorphism.\
+    Let $T_1, dots.c, T_n$ be the columns of $bold(T)$. If there exist scalars $lambda^1, dots.c, lambda^n in F$, not all zero, such that
+    $
+      sum_(i = 1)^n lambda^i T_i = 0,
+    $
+    This means that
+    $
+      bold(T) vec(lambda^1, dots.v, lambda^n) = T (vec(lambda^1, dots.v, lambda^n)) = 0,
+    $
+    but this contradicts with the fact that $T$ is an isomorphism, which only maps the zero vector to the zero vector as shown in #sref(corollary.title, <ConBeIso>). Hence, the columns of $bold(T)$ are linearly independent.
+    #align(right)[$qed$]
+  ]
+]<ColInMatrixIn>
+
+
 #pagebreak()
 == Linear Equations
 #section(definition, subtitle: [Linear Equations])[
@@ -739,3 +965,629 @@ $
   where $bold(A)$ is an $m$ by $n$ matrix of coefficients, $x$ is a vector of variables, and $b$ is a vector of constants.
 ]
 
+#section(definition, subtitle: [Solution of Linear Equations])[
+  A #concept[solution] of a system of linear equations is a vector $x$ that satisfies the equation $bold(A) x = b$.
+]
+
+#section(theorem, subtitle: [Existence of Solutions])[
+  Let $bold(A)$ be an $m$ by $n$ matrix and let $b$ be a vector in $F^m$. Then, the system of linear equations $bold(A) x = b$ has a solution if and only if the vector $b$ is in the span of the columns of $bold(A)$.
+  #section(proof)[
+    Let $A_1, A_2, dots.c, A_n$ be the columns of $bold(A)$. Then, we can write
+    $
+      bold(A) x = mat(
+        A^1_1, dots.c, A^1_n;
+        dots.v, dots.down, dots.v;
+        A^m_1, dots.c, A^m_n
+      ) vec(x^1, dots.v, x^n) & = vec(sum_(i = 1)^n A^1_i x^i, dots.v, sum_(i = 1)^n A^m_i x^i) \
+                              & = sum_(i = 1)^n x^i vec(|, A_i, |) \
+                              & = sum_(i = 1)^n x^i A_i.
+    $
+    Therefore, the system of linear equations $bold(A) x = b$ has a solution if and only if there exist scalars $x^1, dots.c, x^n in F$ such that
+    $
+      sum_(i = 1)^n x^i A_i = b,
+    $
+    that is, if and only if $b$ is in the span of the columns of $bold(A)$.
+    #align(right)[$qed$]
+  ]<ColSpan>
+]
+
+#section(definition, subtitle: [Column Space])[
+  Let $bold(A)$ be an $m$ by $n$ matrix. The #concept[column space] of $bold(A)$, denoted by $"colspace"(bold(A))$, is the span of the columns of $bold(A)$.
+]
+
+#section(definition, subtitle: [Homogeneous Linear Equations])[
+  A system of linear equations is called #concept[homogeneous] if the vector of constants $b$ is the zero vector, that is, if the system can be written in the form $bold(A) x = 0.$
+]
+
+#section(corollary, subtitle: [Trivial Solution of Homogeneous Linear Equations])[
+  A homogeneous system of linear equations always has at least one solution, which is the zero vector. This solution is called the #concept[trivial solution] of the homogeneous system.
+]
+
+#section(theorem, subtitle: [Nontrivial Solutions of Homogeneous Linear Equations I])[
+  Let $bold(A)$ be an $m$ by $n$ matrix. Then, the homogeneous system of linear equations $bold(A) x = 0$ has a nontrivial solution if and only if the columns of $bold(A)$ are linearly dependent.
+  #section(proof)[
+    Let $A_1, A_2, dots.c, A_n$ be the columns of $bold(A)$. Then, as shown in #sref(proof.title, <ColSpan>) we can write
+    $
+      bold(A) x = sum_(i = 1)^n x^i A_i.
+    $
+    Therefore, the homogeneous system of linear equations $bold(A) x = 0$ has a nontrivial solution if and only if there exist scalars $x^1, dots.c, x^n in F$, not all zero, such that
+    $
+      sum_(i = 1)^n x^i A_i = 0,
+    $
+    that is, if and only if the columns of $bold(A)$ are linearly dependent.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Nontrivial Solutions of Homogeneous Linear Equations II])[
+  Let $bold(A)$ be an $m$ by $n$ matrix. If the homogeneous system of linear equations $bold(A) x = 0$ has a nontrivial solution, then it has infinitely many solutions (suppose that the field $F$ has infinitely many scalars).
+  #section(proof)[
+    Let $x$ be a nontrivial solution of the homogeneous system of linear equations $bold(A) x = 0$. Then, for any scalar $a in F$, we have
+    $
+      bold(A) (a x) = a (bold(A) x) = a 0 = 0.
+    $
+    This shows that for any scalar $a in F$, $a x$ is also a solution of the homogeneous system of linear equations $bold(A) x = 0$. Since there are infinitely many scalars in $F$, we have infinitely many solutions of the homogeneous system of linear equations $bold(A) x = 0$.
+    #align(right)[$qed$]
+  ]
+]<InfSol>
+#pagebreak()
+
+== Solving Linear Equations
+A natural thought about solving a linear equation $bold(A) x = b$ is to multiply both sides of the equation by the inverse of $bold(A)$, that is,
+$
+               bold(A) x & = b \
+  bold(A)^(-1) bold(A) x & = bold(A)^(-1) b \
+               bold(I) x & = bold(A)^(-1) b \
+                       x & = bold(A)^(-1) b.
+$
+However, the reality is that *not all matrices* have inverses. For instance,
+$
+  bold(A) = mat(
+    1, 0;
+    0, 0
+  )
+$
+has no inverse, since for any matrix $bold(B) = mat(
+  B_1^1, B_2^1;
+  B_1^2, B_2^2
+)$, we have
+$
+  bold(A) bold(B) = mat(
+    1, 0;
+    0, 0
+  ) mat(
+    B_1^1, B_2^1;
+    B_1^2, B_2^2
+  ) = mat(
+    B_1^1, B_2^1;
+    0, 0
+  ).
+$
+It is also important to note that *the solutions of a system of linear equations might not be just numbers* (i.e. the solutions are not unique, as shown in #sref(theorem.title, <InfSol>)). For example, consider
+$
+  bold(A) x = mat(
+    1, 2;
+    0, 0;
+  ) vec(x^1, x^2) = vec(3, 0).
+$
+The solution of this system of linear equations is the equation itself:
+$
+  x^1 + 2 x^2 = 3.
+$
+It could also be that *the solutions do not exist at all* (i.e. $b in.not "colspan"(A)$). For example, consider
+$
+  bold(A) x = mat(
+    1, 2;
+    0, 0;
+  ) vec(x^1, x^2) = vec(3, 1).
+$
+Thus, before we actually tackle the problem of finding the solutions of a system of linear equations, we should first figure out what *a solution looks like*.\
+
+Consider a general system of linear equations $bold(A) x = b$ where $bold(A)$ is an $m$ by $n$ matrix and $b$ is a vector in $F^m$. That is,
+$
+  bold(A) x = mat(
+    A^1_1, dots.c, A^1_n;
+    dots.v, dots.down, dots.v;
+    A^m_1, dots.c, A^m_n
+  ) vec(x^1, dots.v, x^n) = vec(b^1, dots.v, b^m).
+$
+If one were to imagine the process of solving this system of linear equations, one would intuitively think of attributing an equation to each variable and remove all other variables from that equations. However, in general, *there will be some variables that cannot be attributed with an equation*, as we have shown with examples above.\
+Hence, let's split the variables into two groups: let the set $I_c$ contains the indices of the variables that *cannot be attributed with an equation* and let the set $I_r$ contains the indices of the rest of the variables.\
+What we should *consider* as a #concept[solution] of the system of linear equations $bold(A) x = b$ is a *$m$ list of equations* of the following form:
+$
+  x^i = d^i - sum_(j in I_c) c^i_j x^j "or" 0 = 0
+$
+for $c^i_j, d^i in F$ and $i in I_r$.\
+For instance, consider the system of linear equations
+$
+  bold(A) x = mat(
+    1, 0, 3, 5, 0, 0;
+    0, 1, 4, 0, 0, 0;
+    0, 0, 0, 0, 0, 0;
+    0, 0, 0, 0, 0, 1
+  ) vec(x^1, x^2, x^3, x^4, x^5, x^6) = vec(6, 7, 0, 8).
+$
+It should be clear that variable $x^3$, $x^4$, and $x^5$ are the variables that cannot be attributed with an equation, hence we have $I_c = {3, 4, 5}$ and $I_r = {1, 2, 6}$.\
+The solution of this system of linear equations is the following list of equations:
+$
+  cases(
+    x^1 & = 6 - (3 x^3 + 5 x^4 + 0 x^5),
+    x^2 & = 7 - (4 x^3 + 0 x^4 + 0 x^5),
+    0 & = 0,
+    x^6 & = 8 - (0 x^3 + 0 x^4 + 0 x^5),
+  ).
+$
+The reason that we consider this list of equations as the solution of the system of linear equations is that we can plug in any values for $x^3$, $x^4$, $x^5$ into the list of equations to get a solution of the system of linear equations. For example, if we let $x^3 = 1$, $x^4 = 2$, and $x^5 = 3$ then we have
+$
+  x^1 = -7, quad
+  x^2 = 3, quad
+  x^3 = 1, quad
+  x^4 = 2, quad
+  x^5 = 3, quad
+  x^6 = 8.
+$
+which is a valid solution of the system of linear equations $bold(A) x = b$. It is also for this reason that we call the variables in $I_c$ #concept[free variables], as they can freely vary without affecting the validity of the solution.\
+
+We shall now translate the list of equations into a matrix form. For any particular $i in I_r$,
+$
+                             x^i = & d^i - sum_(j in I_c) c^i_j x^j \
+  x^i + sum_(j in I_c) c^i_j x^j = & d^i. \
+$
+Let $k(i)$ be the index of the equation attributed to the variable $x^i$ for $i in I_r$. To group the equations together, we can consider the following vector:
+$
+  vec(dots.v, x^i + sum_(j in I_c) c^i_j x^j, dots.v) =
+  sum_(i in I_r) (x^i + sum_(j in I_c) c^i_j x^j) e_k(i) = sum_(i in I_r) d^i e_k(i) = vec(dots.v, d^i, dots.v),
+$
+where $e_k(i)$ is the $k(i)$-th vector in the standard basis of $F^m$, since there are $m$ equations in the list of equations. However, notice that
+$
+  sum_(i in I_r) (x^i + sum_(j in I_c) c^i_j x^j) e_k(i) &= sum_(i in I_r) x^i e_k(i) + sum_(i in I_r) (sum_(j in I_c) c^i_j x^j) e_k(i)\
+  &= sum_(i in I_r) x^i e_k(i) + sum_(j in I_c) (sum_(i in I_r) c^i_j e_k(i)) x^j.
+$
+Let $v_j = sum_(i in I_r) c^i_j e_k(i)$ be vectors in $"span"({e_k(i)}_(i in I_r))$ for $j in I_c$. Then, we have
+$
+  sum_(i in I_r) (x^i + sum_(j in I_c) c^i_j x^j) e_k(i) = sum_(i in I_r) x^i e_k(i) + sum_(j in I_c) x^j v_j.
+$
+Notice how this is similar how we represent multiplication of a matrix and a vector as *the linear combination of the columns of the matrix* (as shown in #sref(proof.title, <ColSpan>)). Let $bold(C)$ be the matrix whose columns are the vectors $e_k(i)$ for $i$-th columns where $i in I_r$ and $v_j$ for $j$-th columns where $j in I_c$. Then, we can represent the list of equations as
+$
+  bold(C) x = d,
+$
+where $d$ is the vector whose $i$-th component is $d^i$ for $i in I_r$ and $0$ for $i in I_c$.\
+
+#section(definition, subtitle: [The Shape of the Solution])[
+  Let $bold(A)$ be an $m$ by $n$ matrix and let $b$ be a vector in $F^m$. Let $I_r$ be a subset of ${1, dots.c, n}$ such that the variables with indices in $I_r$ can be attributed with equations and let $I_c$ be the complement of $I_r$ in ${1, dots.c, n}$. Let $c^i_j, d^i in F$ for $i in I_r$ and $j in I_c$. Then, the #concept[solution] of the system of linear equations $bold(A) x = b$ is represented by the matrix equation
+  $
+    bold(C) x = d,
+  $
+  where $bold(C)$ is the matrix whose columns are the vectors $e_k(i)$ for $i$-th columns where $i in I_r$ and $v_j = sum_(i in I_r) c^i_j e_k(i)$ for $j$-th columns where $j in I_c$, and $d$ is the vector whose $i$-th component is $d^i$ for $i in I_r$ and $0$ for $i in I_c$.
+]<RdForm>
+
+In other words, solving a system of linear equations is equivalent to find a way to *transform* the equation $bold(A) x = b$ into the equation $bold(C) x = d$ where $bold(C)$ has a particular shape (i.e. the columns of $bold(C)$ are *either standard basis vectors or linear combinations of standard basis vectors appeared in the columns of $bold(C)$*).
+For instance, $bold(C)$ can be:
+$
+  mat(
+    1, 0, 0, 5;
+    0, 1, 0, 4;
+    0, 0, 1, 3;
+  )
+  "or"
+  mat(
+    1, 3, 0, 5;
+    0, 0, 0, 0;
+    0, 2, 1, 4;
+  ).
+$
+One may notice that there are many $bold(C)$ that satisfy the condition, and they all represent the same solution of the system of linear equations $bold(A) x = b$. Hence, mathematicians defined a particular $bold(C)$ called the #concept[row reduced echelon form] of $bold(A)$ to represent the solution of the system of linear equations $bold(A) x = b$ in a particular way, the uniqueness of the row reduced echelon form of a matrix will not be shown here as it does not affect how we solve a system of linear equations.
+
+#section(definition, subtitle: [Row Reduced Echelon Form])[
+  Let $bold(A) x = b$ be a valid system of linear equations where $bold(A)$ is an $m$ by $n$ matrix and $b$ is a vector in $F^m$. Let $bold(C)$ be a matrix in the form defined by #sref(definition.title, <RdForm>) that represents the solution of the system of linear equations $bold(A) x = b$. We say that $bold(C)$ is a #concept[row reduced echelon form] of $bold(A)$, denoted by $bold(C) = "RREF"(bold(A))$, if the following condition is satisfied:\
+  If the $k$-th column of $bold(C)$, $C_k$, is
+  - *a standard basis vector*, then it is the *next available* standard basis vector that has not appeared in the columns of $bold(C)$ before $C_k$. That is, if
+    $
+      e_1, e_2, dots.c, e_p
+    $
+    have already appeared in the columns of $bold(C)$ before $C_k$, then $C_k$ must be $e_(p + 1)$.
+  - *not a standard basis vector*, then it is the linear combination of the basis vectors that *appeared* in the columns of $bold(C)$ *before* $C_k$. That is, if
+    $
+      e_1, e_2, dots.c, e_p
+    $
+    have already appeared in the columns of $bold(C)$ before $C_k$, then $C_k$ must be
+    $
+      C_k = sum_(i=1)^p c^i_k e_i,
+    $
+    where $c^i_k in F$ for $i in I_r$ and $i < k$.
+]
+
+If we consider the previous example,
+$
+  mat(
+    1, 0, 0, 5;
+    0, 1, 0, 4;
+    0, 0, 1, 3;
+  )
+$
+is in *row reduced echelon form*, while
+$
+  mat(
+    1, 3, 0, 5;
+    0, 0, 0, 0;
+    0, 2, 1, 4;
+  )
+$
+is not in *row reduced echelon form* since the second column is not a standard basis vector and it is not the linear combination of the first column (the only column before it).\
+
+With that, we are left with the task of figuring out how to *transform* the equation $bold(A) x = b$ into the equation $bold(C) x = d$ where $bold(C)$ is in row reduced echelon form.
+
+#section(theorem, subtitle: [Invertible Transformation Preserves the Solutions])[
+  Let $bold(A)$ be a matrix and $b$ be a vector, if
+  $
+    bold(A) x = b
+  $
+  is a valid system of linear equations, then
+  $
+    bold(T) bold(A) x = bold(T) b
+  $
+  has the same solution as $bold(A) x = b$ for any invertible matrix $bold(T)$.
+  #section(proof)[
+    Let $x$ be a solution of the system of linear equations $bold(A) x = b$. Then, we have
+    $
+      bold(T) bold(A) x = bold(T) b.
+    $
+    Conversely, let $x$ be a solution of the system of linear equations $bold(T) bold(A) x = bold(T) b$. Since $bold(T)$ is invertible, we have
+    $
+      bold(A) x = bold(T)^(-1) (bold(T) bold(A) x) = bold(T)^(-1) (bold(T) b) = b.
+    $
+    This shows that $x$ is also a solution of the system of linear equations $bold(A) x = b$.
+    #align(right)[$qed$]
+  ]
+]<RowOpPreserve>
+
+#section(definition, subtitle: [Elementary Row Operations])[
+  Let $bold(A)$ be an $m$ by $n$ matrix. An #concept[elementary row operation] on $bold(A)$ is one of the following operations:
+  + *Row swapping*: swap the positions of two rows of $bold(A)$.
+  + *Row scaling*: multiply all entries of a row of $bold(A)$ by a nonzero scalar.
+  + *Row addition*: add a scalar multiple of one row of $bold(A)$ to another row of $bold(A)$.
+]<DefRowOp>
+
+#section(theorem, subtitle: [Row Operations are Linear Transformations])[
+  The *elementary row operations* on an $m$ by $n$ matrix defined in #sref(definition.title, <DefRowOp>) can be represented by *left multiplication* of the matrix by an *invertible* $m$ by $m$ matrix.
+  #section(proof)[
+    Let $bold(A)$ be an $m$ by $n$ matrix. We will show that each of the three types of elementary row operations can be represented by left multiplication of $bold(A)$ by an invertible $m$ by $m$ matrix.
+    + *Row swapping*:\
+      If $T$ swaps the $i$-th and $j$-th rows of $bold(A)$, we shall define $bold(T)$ as follows:\
+      Let ${I^i}_(i in {1, dots.c, m})$ be the $i$-th row of the identity matrix $bold(I)_m$. $bold(T)$ is a matrix whose $k$-th row is $I^k$, except that the $i$-th row is $I^j$ and the $j$-th row is $I^i$. For instance, if $m = 4$, $i = 2$, and $j = 4$, then we have
+      $
+        bold(T) = mat(
+          1, 0, 0, 0;
+          0, 0, 0, 1;
+          0, 0, 1, 0;
+          0, 1, 0, 0
+        ).
+      $
+      The inverse of $bold(T)$ is itself, since swapping the same two rows again will return the original matrix. Hence, we have $bold(T)^(-1) = bold(T)$.
+
+    + *Row Scaling*:\
+      If $T$ scales the $i$-th row of $bold(A)$ by a nonzero scalar $a$, we shall define $bold(T)$ as follows:\
+      Let ${I^i}_(i in {1, dots.c, m})$ be the $i$-th row of the identity matrix $bold(I)_m$. $bold(T)$ is a matrix whose $k$-th row is $I^k$, except that the $i$-th row is $a I^i$ where $a$ is the nonzero scalar used for scaling. For instance, if $m = 4$, $i = 2$, and $a = 3$, then we have
+      $
+        bold(T) = mat(
+          1, 0, 0, 0;
+          0, 3, 0, 0;
+          0, 0, 1, 0;
+          0, 0, 0, 1
+        ).
+      $
+      The inverse of $bold(T)$ is the matrix whose $k$-th row is $I^k$, except that the $i$-th row is $(1/a) I^i$. Hence, we have
+      $
+        bold(T)^(-1) = mat(
+          1, 0, 0, 0;
+          0, 1/3, 0, 0;
+          0, 0, 1, 0;
+          0, 0, 0, 1
+        ).
+      $
+
+    + *Row addition*:\
+      If $T$ adds $a$ times the $j$-th row of $bold(A)$ to the $i$-th row of $bold(A)$, we shall define $bold(T)$ as follows:\
+      Let ${I^i}_(i in {1, dots.c, m})$ be the $i$-th row of the identity matrix $bold(I)_m$. $bold(T)$ is a matrix whose $k$-th row is $I^k$, except that the $i$-th row is $I^i + a I^j$ where $a$ is the scalar used for addition. For instance, if $m = 4$, $i = 2$, $j = 4$, and $a = 3$, then we have
+      $
+        bold(T) = mat(
+          1, 0, 0, 0;
+          0, 1, 0, 3;
+          0, 0, 1, 0;
+          0, 0, 0, 1
+        ).
+      $
+      The inverse of $bold(T)$ is the matrix whose $k$-th row is $I^k$, except that the $i$-th row is $I^i - a I^j$. Hence, we have
+      $
+        bold(T)^(-1) = mat(
+          1, 0, 0, 0;
+          0, 1, 0, -3;
+          0, 0, 1, 0;
+          0, 0, 0, 1
+        ).
+      $
+  ]
+]
+
+#section(corollary, subtitle: [Row Operations Preserve the Solution])[
+  Let $bold(A)$ be an $m$ by $n$ matrix and let $b$ be a vector in $F^m$. If $bold(T)$ is an invertible matrix that represents an elementary row operation on $bold(A)$, then the system of linear equations $bold(T) bold(A) x = bold(T) b$ has the same solution as the system of linear equations $bold(A) x = b$.
+  This is shown in #sref(theorem.title, <RowOpPreserve>).
+]
+
+This means we can freely apply any elementary row operation on a system of linear equations in attempt to transform the system of linear equations into a system of linear equations with *a particular shape* (i.e. the *row reduced echelon form*) without worrying about changing the solution of the system of linear equations.\
+
+We shall now develop an *algorithm* to do so. Let $bold(A)$ be an $m$ by $n$ matrix and let $b$ be a vector in $F^m$, consider the system of linear equations $bold(A) x = b$. We shall represent $bold(A)$ as its columns:
+$
+  bold(A) x = mat(
+    |, , |;
+    A_1, dots.c, A_n;
+    |, , |
+  ) x = b.
+$
+Let's consider $bold(A)$ as *an ordered list of columns*. The idea is simple, since we want to transform $bold(A)$ in row reduced echelon form, we will *process* the columns of $bold(A)$ one by one from left to right. If the current column, $A_k$, is *not a linear combination of previous columns*, then we will use *elementary row operations* to transform the current column into the *next available standard basis vector*.\
+
+However, one may notice that to figure out whether $A_k$ is a linear combination of previous columns, we need to *solve* the system of linear equations
+$
+  A_k = sum_(i = 1)^(k - 1) c^i_k A_i,
+$
+where $c^i_k$ are scalars in $F$. This seems to be a *circular* problem since we are trying to solve a system of linear equations in order to solve a system of linear equations.\
+
+The remedy to this problem is actually obvious once one actually tries to process the columns of $bold(A)$ one by one from left to right.\
+Let's say that we already found a list of row operations, $bold(T) = bold(T)_1 dots.c bold(T)_p$, that changes all the previous columns of $A_k$ into the appropriate form. That is, some of the $A_i$ for $i < k$ are transformed into standard basis vectors, let's say that $A_(i_1), dots.c, A_(i_r)$ are transformed into $e_1, dots.c, e_r$ respectively, and the rest of the $A_j$ for $j < k$ are transformed into linear combinations of the basis vectors appeared up to $j$.\
+Now, since
+$
+  bold(T) bold(A) = mat(
+    |, , |;
+    bold(T) A_1, dots.c, bold(T) A_n;
+    |, , |;
+  ),
+$
+if $A_k$ is a linear combination of previous columns, then
+$
+  bold(T) A_k = sum_(i = 1)^(k - 1) c^i_k bold(T) A_i,
+$
+but any $bold(T) A_i$ for $i < k$ is either a standard basis vector in ${e_1, dots.c, e_r}$ or a linear combination of these vectors. Hence, $bold(T) A_k$ is also a linear combination of the standard basis vectors in ${e_1, dots.c, e_r}$, that is, there exist scalars $a^j_k in F$ for $j in {1, dots.c, r}$ such that
+$
+  bold(T) A_k = sum_(i = 1)^(k - 1) c^i_k bold(T) A_i = sum_(j = 1)^(r) a^j_k e_j
+  = vec(a^1_k, dots.v, a^r_k, 0, dots.v, 0).
+$
+This means that if $A_k$ *is a linear combination of previous columns*, then *all* components of $bold(T) A_k$ after the $r$-th component are *zero*. On the other hand, if $A_k$ *is not a linear combination of previous columns*, then there exists *at least one* component of $bold(T) A_k$ after the $r$-th component that is *not zero*.
+
+Now, we need to figure out how to use elementary row operations to transform $bold(T) A_k$ into the next available standard basis vector if $A_k$ is not a linear combination of previous columns.\
++ Let's say that the next available standard basis vector is $e_(r + 1)$. Since there exists at least one component of $bold(T) A_k$ after the $r$-th component that is not zero, we can use row swapping, $T_w$ ,to swap the row with a nonzero component with the $(r + 1)$-th row.
++ Then we can use row scaling, $T_c$, to scale the $(r + 1)$-th row such that the $(r + 1)$-th component of $bold(T) A_k$ becomes $1$.
++ Finally, we can use row additions, $T_a_1, dots.c, T_a_q$, to add appropriate multiples of the $(r + 1)$-th row to other rows to make all other components of $bold(T) A_k$ zero.
+We should show that these row operations will not change the form of the previous columns. Since $bold(T) A_i$ are either standard basis vectors in ${e_1, dots.c, e_r}$ or linear combinations of these vectors for $i < k$, *all* components of $bold(T) A_i$ after the $r$-th component are *zero* for $i < k$. Hence,
++ $T_w$ does not change the form of $bold(T) A_i$ for $i < k$ since it only swaps rows after the $r$-th row.
++ $T_c$ does not change the form of $bold(T) A_i$ for $i < k$ since it only scales the $(r + 1)$-th row, which is zero for all $bold(T) A_i$ for $i < k$.
++ $T_a_1, dots.c, T_a_q$ do not change the form of $bold(T) A_i$ for $i < k$ since they only add multiples of the $(r + 1)$-th row, which is zero for all $bold(T) A_i$ for $i < k$.
+
+Hence, we can apply $bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w$ to $bold(T) bold(A)$ in order to transform $A_k$ into the next available standard basis vector without changing the form of previous columns. Continuing this process for all columns of $bold(A)$, we can transform $bold(A)$ into a matrix in *row reduced echelon form*, which represents the solution of the system of linear equations $bold(A) x = b$.\
+
+#section(definition, subtitle: [Gauss-Jordan Elimination])[
+  The process of applying elementary row operations to transform a matrix into row reduced echelon form is called #concept[Gauss-Jordan elimination].\
+  Let $bold(A)$ be an $m$ by $n$ matrix and let $b$ be a vector in $F^m$. We shall define the *algorithm* as follows:
+  - Starting from $A_1$ the first column of $bold(A)$ and proceed column by column from left to right.
+    + For each column $A_k$, assuming that $bold(T)_k$ have already transformed the previous columns of $bold(A)$ into the appropriate form and the basis $e_1, dots.c, e_r$ have been used in the previous columns, we will check whether $A_k$ is a linear combination of previous columns by checking whether all components of $bold(T)_k A_k$ after the $r$-th component are zero.
+    + If it is, then do nothing and move on to the next column. If it is not, then apply elementary row operations to transform $A_k$ into the next available standard basis vector $e_(r+1)$ and move on to the next column.
+
+  - The elementary row operations to transform $A_k$ into the next available standard basis vector are the follows:
+    + $T_w$ that swaps the $r+1$-th row with a row after the $r$-th row that has a nonzero component in $bold(T) A_k$.
+    + $T_c$ that scales the $r+1$-th row such that the $r+1$-th component of $bold(T) A_k$ becomes $1$.
+    + $T_a_1, dots.c, T_a_q$ that add appropriate multiples of the $r+1$-th row to other rows to make all other components of $bold(T) A_k$ zero.
+    #v(-0.5em)
+    Then, for $A_(k+1)$, $bold(T)_(k+1) = bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w bold(T)_k$.
+]
+
+#section(theorem, subtitle: [Non-Square Matrix I])[
+  Let $bold(A)$ be an $m$ by $n$ matrix and $bold(A) x = b$ be a valid system of linear equations. If $m < n$, then the system of linear equations $bold(A) x = b$ has either *no solution* or *infinitely many solutions* (suppose that the field $F$ has infinitely many scalars).
+  #section(proof)[
+    Let $bold(C) = "RREF"(bold(A))$ be the row reduced echelon form of $bold(A)$ and let $d$ be the vector such that $bold(C) x = d$ represents the solution of the system of linear equations $bold(A) x = b$. Since $m < n$, there are more columns than rows in $bold(C)$, hence there is at least one column in $bold(C)$ that is not a standard basis vector.\
+    If the system of linear equations have a solution, then that column must be associated with a *free variable*. That is, there is at least one variable that can vary freely without affecting the validity of the solution. Hence there must be infinitely many solutions of the system of linear equations $bold(A) x = b$ since there are infinitely many scalars in $F$ that can be assigned to the free variable.
+    #align(right)[$qed$]
+  ]
+]<NonSquareI>
+
+#section(corollary, subtitle: [Non-Square Matrix II])[
+  Let $bold(A)$ be an $m$ by $n$ matrix, if $m < n$, then the columns of $bold(A)$ are linearly dependent.
+  #section(proof)[
+    Since the homogeneous system of linear equations$bold(A) x = 0$ has always at least one solution, if $m < n$, then the homogeneous system of linear equations $bold(A) x = 0$ must have infinitely many solutions by #sref(theorem.title, <NonSquareI>). Hence, the columns of $bold(A)$ are linearly dependent.
+    #align(right)[$qed$]
+  ]
+]<NonSquareII>
+
+#section(theorem, subtitle: [Independent Columns of a Square Matrix])[
+  Let $bold(A)$ be an $n$ by $n$ matrix, if the columns of $bold(A)$ are linearly independent, then $bold(A)$ is invertible.
+  #section(proof)[
+    Since the columns of $bold(A)$ are linearly independent. From the way we defined the row reduced echelon form of a matrix, we can see that the row reduced echelon form of $bold(A)$ must be the identity matrix $bold(I)_n$.\
+    Hence, there is a sequence of elementary row operations that transforms $bold(A)$ into $bold(I)_n$, let's represent the sequence of elementary row operations as $bold(T) = bold(T)_1 dots.c bold(T)_p$. Then, we have
+    $
+      bold(T) bold(A) = bold(I)_n.
+    $
+    Since $bold(T)$ is invertible, then $bold(A)$ must be the inverse of $bold(T)$, hence $bold(A)$ is invertible.
+    #align(right)[$qed$]
+  ]
+]<IndColSq>
+
+#pagebreak()
+== General Vector Spaces
+#section(theorem, subtitle: [Set of Linearly Independent Vectors])[
+  Let $V = F^m$ be a vector space and let $S = {v_1, dots.c, v_n}$ be a set of vectors in $V$. If $n > m$, then the vectors in $S$ are linearly dependent.
+  #section(proof)[
+    Consider the $m$ by $n$ matrix $bold(A)$ whose columns are the vectors in $S$. Since $m < n$, by #sref(corollary.title, <NonSquareII>), the columns of $bold(A)$ are linearly dependent. This shows that the vectors in $S$ are linearly dependent.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Maximum Number of Linearly Independent Vectors])[
+  Let $V = F^m$ be a vector space, then any set of more than $m$ vectors in $V$ are linearly dependent.
+]
+
+#section(corollary, subtitle: [Number of Basis Vectors])[
+  Let $V$ be a vector space with a finite basis, then any basis of $V$ has the same number of vectors.
+  #section(proof)[
+    Let $frak(B)_e = {e_1, dots.c e_n}$ and $frak(B)_f = {f_1, dots.c, f_m}$ be two bases of $V$, with $m < n$. Consider the following system of linear equations:
+    $
+      sum_(i = 1)^n v^i e_i = 0.
+    $
+    We can rewrite the system of linear equations as
+    $
+        sum_(i = 1)^n sum_(j = 1)^m v^i e^j_i f_j = & 0 \
+      sum_(j = 1)^m (sum_(i = 1)^n v^i e^j_i) f_j = & 0,
+    $
+    where $e_i = sum_(j = 1)^m e^j_i f_j$ for $i in {1, dots.c, n}$. Now, since $frak(B)_f$ is a basis of $V$, then the only solution of the system of linear equations is $sum_(i=1)^n v^i e^j_i = 0$ for all $j in {1, dots.c, m}$. Since
+    $
+      sum_(i = 1)^n v^i e^j_i = v^1 e^j_1 + v^2 e^j_2 + dots.c + v^n e^j_n = 0,
+    $
+    we can rewrite the system of linear equations as
+    $
+      bold(E) v =
+      mat(
+        e^1_1, e^1_2, dots.c, e^1_n;
+        e^2_1, e^2_2, dots.c, e^2_n;
+        dots.v, dots.v, dots.down, dots.v;
+        e^m_1, e^m_2, dots.c, e^m_n
+      ) vec(v^1, v^2, dots.v, v^n) = vec(0, 0, dots.v, 0).
+    $
+    However, since $m < n$, and $bold(E) v = 0$ has at least one solution $v=0$, by #sref(theorem.title, <NonSquareI>), the system of linear equations $bold(E) v = 0$ must have infinitely many solutions, which implies
+    $
+      sum_(i = 1)^n v^i e_i = 0
+    $
+    also has infinitely many solutions. Hence, $e_1, dots.c, e_n$ are linearly dependent, which contradicts the fact that $frak(B)_e$ is a basis of $V$.
+    Therefore, by contradiction, we have $m >= n$. By a symmetric argument, we can also show that $n >= m$. Hence, we have $m = n$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Minimum Number of Vectors to Span a Vector Space])[
+  Let $V = F^m$ be a vector space, then any set of less than $m$ vectors in $V$ cannot span $V$.
+]
+
+#section(definition, subtitle: [Dimension of a Vector Space])[
+  Let $V$ be a vector space with a finite basis, then the number of vectors in any basis of $V$ is called the #concept[dimension] of $V$, denoted by $dim(V)$.
+]
+
+#section(theorem, subtitle: [General Vector Space to Cartesian])[
+  Let $V$ be a vector space with the field $F$ and a finite basis $frak(B) = {v_1, dots.c, v_n}$, then there is an isomorphism between $V$ and $F^n$ that maps $v_i$ to the standard basis $e_i$ for all $i in {1, dots.c, n}$.
+  #section(proof)[
+    Let $T$ be a function from $V$ to $F^n$ defined as follows:\
+    $
+      T(sum_(i = 1) u^i v_i) = sum_(i=1) u^i T(v_i) := sum_(i = 1) u^i e_i.
+    $
+    Since it is clear that $T$ satisfies the properties of a linear transformation, we only need to show that $T$ is bijective.\
+    For any vector $u = sum_(i = 1) u^i v_i in V$, it is mapped to $T(u) = sum_(i = 1) u^i e_i$. Hence $T(u) = T(w)$ if and only if $u = w$. Hence, $T$ is injective.\
+    Similarly, for any vector $u = sum_(i = 1) u^i e_i in F^n$, it is mapped from $T(sum_(i = 1) u^i v_i) = sum_(i = 1) u^i e_i$. Hence, $T$ is surjective.\
+    Therefore, $T$ is bijective, which shows that there is an isomorphism between $V$ and $F^n$ that maps $v_i$ to the standard basis $e_i$ for all $i in {1, dots.c, n}$.
+    #align(right)[$qed$]
+  ]
+]<GenVecToCart>
+
+#section(definition, subtitle: [Ordered Basis])[
+  Let $V$ be a vector space with the field $F$ and a finite basis $frak(B) = {v_1, dots.c, v_n}$. The basis $frak(B)$ is called an #concept[ordered basis] of $V$ if the order of the vectors in $frak(B)$ is fixed. That is, $frak(B)$ is an *ordered list* of vectors in $V$.
+]
+
+#section(corollary, subtitle: [Subspace Spanned by a Finite Set of Vectors])[
+  Let $V$ be a vector space with the field $F$ and let $S = {v_1, dots.c, v_n}$ be a set of vectors in $V$. Then, the subspace spanned by $S$ is isomorphic to $F^m$ where $m$ is the number of linearly independent vectors in $S$.
+  #section(proof)[
+    Let $frak(B) = {v_(i_1), dots.c, v_(i_m)}$ be the set of linearly independent vectors in $S$. Since any vector in the subspace spanned by $S$ can be written as a linear combination of the vectors in $frak(B)$, we have
+    $
+      "span"(S) = "span"(frak(B)).
+    $
+    Since $frak(B)$ is a set of linearly independent vectors, it is a basis of $"span"(frak(B))$. Hence, the dimension of $"span"(frak(B))$ is $m$ and it is isomorphic to $F^m$.
+    #align(right)[$qed$]
+  ]
+]
+#section(definition, subtitle: [Coordinate])[
+  Let $V$ be a vector space with the field $F$ and a finite ordered basis $frak(B) = {v_1, dots.c, v_n}$ and $I_frak(B): V mapsto F^n$ be the isomorphism defined in #sref(theorem.title, <GenVecToCart>). Then, for any vector $v in V$ defined as
+  $
+    v = sum_(i = 1) u^i v_i,
+  $
+  the *n-tuple*
+  $
+    bold(v) = vec(u^1, u^2, dots.v, u^n) = I_frak(B)(v)
+  $
+  is called the #concept[coordinate] of $v$ with respect to the basis $frak(B)$.
+]
+
+#section(convention, subtitle: [Coordinate Representation of a Vector])[
+  In order to distinguish the coordinates of a vector $v in V$ with respect to different bases, we will denote the coordinate of $v$ with respect a particular basis $frak(B)$ as
+  $
+    vec(u^1, u^2, dots.v, u^n)_frak(B)
+  $
+  or as $[bold(v)]_frak(B)$.
+]
+
+#section(theorem, subtitle: [Matrix Form of Linear Transformations in General Vector Spaces])[
+  Let $V$ and $W$ be two vector spaces with the field $F$ and finite ordered bases $frak(B)_V = {v_1, dots.c, v_n}$ and $frak(B)_W = {w_1, dots.c, w_m}$ respectively. Let $T$ be a linear transformation from $V$ to $W$. Then, there is an $m$ by $n$ matrix $bold(T)$ such that for any vector $v in V$, if $T(v) = w$, then we have
+  $
+    bold(T) [bold(v)]_(frak(B)_V) = [bold(w)]_(frak(B)_W).
+  $
+  #section(proof)[
+    From #sref(theorem.title, <LinTranIsoVecSpace>), we know that there is a unique linear transformation $S$ from $F^n mapsto W$ such that for any vector $v in V$, if $T(v) = w$, then we have
+    $
+      S ([bold(v)]_(frak(B)_V)) = w.
+    $
+    Now, let's consider the linear transformation
+    $
+      I_frak(B)_W compose S : F^n mapsto F^m.
+    $
+    As it maps from a Cartesian vector space to a Cartesian vector space, there is a unique $m$ by $n$ matrix $bold(T)$ such that
+    $
+      bold(T) [bold(v)]_(frak(B)_V) = I_frak(B)_W compose S ([bold(v)]_(frak(B)_V)) = I_frak(B)_W (w) = [bold(w)]_(frak(B)_W).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
+#section(definition, subtitle: [Nullity and Rank of a Linear Transformation])[
+  Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. The #concept[nullity] of $T$ is the dimension of $ker(T)$ The #concept[rank] of $T$ is the dimension of $im(T)$, denoted by $"Rank"(T)$.
+]
+
+#section(theorem, subtitle: [How a Set of Independent Vectors Span a Vector Space])[
+  Let $V$ be a vector space with the field $F$ with $dim V = n$. If $S={s_1, dots.c, s_n}$ is a set of linearly independent vectors in $V$, then
+  $
+    "span"(S) = V.
+  $
+  #section(proof)[
+    Since $S subset.eq V$, any linear combination of the vectors in $S$ is also a linear combination of the vectors in $V$. Hence, we have $"span"(S) subset.eq V$.\
+    Let $frak(B)$ be an ordered basis of $V$. Let $bold(S)$ be the following matrix:
+    $
+      bold(S) = mat(
+        |, , |;
+        [bold(s)_1]_frak(B), dots.c, [bold(s)_n]_frak(B);
+        |, , |
+      )
+    $
+    which defines a linear transformation from $F^n$ to $F^n$. Since $F^n$ and $V$ are isomorphic, we will define a linear transformation $S$ from $V$ to $V$ by $bold(S)$. Now, as isomorphisms preserve linear independence, $[bold(s)_1]_frak(B), dots.c, [bold(s)_n]_frak(B)$ are linearly independent in $F^n$. Hence, the matrix $bold(S)$ is invertible, so does $S$.\
+    Therefore, for any vector $v in V$, if $u = S^(-1) (v)$, there is
+    $
+      I_frak(B) compose S^(-1) (v) =
+      bold(S)^(-1) [bold(v)]_frak(B) = [bold(u)]_frak(B) = vec(u^1, u^2, dots.v, u^n)_frak(B).
+    $
+    The claim is that the coordinates of $u$ gives the coefficients of a linear combination of the vectors in $S$ that equals to $v$. To show this, consider
+    $
+      I_frak(B)^(-1) (bold(S) [bold(u)]_frak(B)) = sum_(i = 1)^n u^i s_i.
+    $
+    However, we also have
+    $
+      I_frak(B)^(-1) (bold(S) [bold(u)]_frak(B)) = I_frak(B)^(-1) (bold(S) bold(S)^(-1) [bold(v)]_frak(B)) = I_frak(B)^(-1) ([bold(v)]_frak(B)) = v.
+    $
+    Hence,
+    $
+      sum_(i = 1)^n u^i s_i = v.
+    $
+    Since this holds for any vector $v in V$, we have $V subset.eq "span"(S)$.
+    Therefore, we have $"span"(S) = V$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Dimension of two Subspaces])[
+  Let $V$ be a vector space with the field $F$ and let $W_1$ and $W_2$ be two subspaces of $V$. Then
+  $
+    dim W_1 + dim W_2 = dim (W_1 + W_2) + dim (W_1 inter W_2).
+  $
+  #section(proof)[
+    Consider the space $W_1 inter W_2$. Let $frak(B)_(W_1 inter W_2) = {alpha_i}_(i in I)$ be a basis of $W_1 inter W_2$. Now,
+  ]
+]
