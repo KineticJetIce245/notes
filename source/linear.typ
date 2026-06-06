@@ -431,7 +431,8 @@ Two sets composed of very different mathematical objects might be _structurally 
     Since each $U$ is a subspace of $V$, we have for all $U in S$, $a u + v in U$. Hence, we have for all $U in S$, $a u + v in U$, which implies that $a u + v in W$. This shows that $W$ is a subspace of $V$.
     #align(right)[$qed$]
   ]
-]
+]<IntersectionSubspace>
+
 
 #section(theorem, subtitle: [Span is a Subspace])[
   Let $W$ be a subset of a vector space $V$. Then, the span of $W$ is a subspace of $V$.
@@ -453,15 +454,58 @@ Two sets composed of very different mathematical objects might be _structurally 
   ]
 ]
 
-#section(theorem, subtitle: [Span of a Subspace])[
-  The span of a subspace $W$ of a vector space $V$ is equal to $W$ itself, that is, $"span"(W) = W$.
+#section(theorem, subtitle: [Span of a Vector Space])[
+  The span of a vector space $V$ is equal to $V$ itself, that is, $"span"(V) = V$.
   #section(proof)[
-    Since $W$ is a subspace of $V$, it is closed under linear combinations. Hence, we have $"span"(W) subset.eq W$. On the other hand, since $W subset.eq W$, we have $W subset.eq "span"(W)$. This shows that $"span"(W) = W$.
+    Since $V$ is closed under linear combinations. Hence, we have $"span"(V) subset.eq V$. On the other hand, since $V subset.eq V$, we have $V subset.eq "span"(V)$. This shows that $"span"(V) = V$.
     #align(right)[$qed$]
   ]
 ]
 
-#section(theorem, subtitle: [Span of Subsets])[
+#section(definition, subtitle: [Sum of Subspaces])[
+  Let $U$ and $W$ be two subspaces of a vector space $V$. The #concept[sum] of $U$ and $W$, denoted by $U + W$, is defined as the set of all vectors that can be expressed as the sum of a vector in $U$ and a vector in $W$. That is,
+  $
+    U + W := {u + w: u in U, w in W}.
+  $
+]
+
+#section(theorem, subtitle: [Sum of Subspaces is a Subspace])[
+  Let $U$ and $W$ be two subspaces of a vector space $V$. Then, the sum of $U$ and $W$ is also a subspace of $V$.
+  #section(proof)[
+    Let $u_1 + w_1, u_2 + w_2 in U + W$ and let $a in F$. Since $u_1, u_2 in U$ and $w_1, w_2 in W$, we have that $a u_1 + u_2 in U$ and $a w_1 + w_2 in W$. Hence, we have
+    $
+      a (u_1 + w_1) + (u_2 + w_2) = (a u_1 + u_2) + (a w_1 + w_2),
+    $
+    which is an element in $U + W$. This shows that $U + W$ is a subspace of $V$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Sum of Subspaces is the Span of Union])[
+  Let $U$ and $W$ be two subspaces of a vector space $V$. Then,
+  $
+    U + W = "span"(U union W).
+  $
+  #section(proof)[
+    For any $u in U$ and $w in W$, we have $u + w in "span"(U union W)$. Hence, $U + W subset.eq "span"(U union W)$.\
+    On the other hand, for any $v in "span"(U union W)$, $v$ must be a linear combination of vectors in $U union W$. Hence, we have
+    $
+      v = sum_(i = 1)^n lambda^i u_i + sum_(j = 1)^m mu^j w_j,
+    $
+    where $lambda^i$ and $mu^j$ are scalars in $F$, $u_i in U$ for all $i$, and $w_j in W$ for all $j$. But $sum_(i = 1)^n lambda^i u_i in U$ and $sum_(j = 1)^m mu^j w_j in W$. Hence, $v in U + W$. Therefore, $"span"(U union W) subset.eq U + W$.\
+    Thus, $U + W = "span"(U union W)$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(definition, subtitle: [Direct Sum])[
+  The #concept[direct sum] of two subspaces $U$ and $W$ of a vector space $V$, denoted by $U plus.o W$, is defined if and only if $U inter W = {0}$, and in this case, it is defined as the sum of $U$ and $W$, that is,
+  $
+    U plus.o W = U + W <=> U inter W = {0}.
+  $
+]
+
+#section(theorem, subtitle: [Span of Subsets is the Smallest Subspace])[
   Let $W$ be a subset of a vector space $V$. Then, the span of $W$ is the smallest subspace of $V$ that contains $W$. In other words, let $S$ be the collection of all subspaces of $V$ that contain $W$, then
   $
     "span"(W) = inter.big_(U in S) U.
@@ -1509,6 +1553,8 @@ Hence, we can apply $bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w$ to $bol
   is called the #concept[coordinate] of $v$ with respect to the basis $frak(B)$.
 ]
 
+Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily the same mathematical object. Moreover, $bold(v)$ depends *entirely* on the choice of the basis $frak(B)$. That is $bold(v)$ might change if we change the basis $frak(B)$, even if $v$ is fixed. Hence, we should always specify the basis when we talk about the coordinate of a vector.
+
 #section(convention, subtitle: [Coordinate Representation of a Vector])[
   In order to distinguish the coordinates of a vector $v in V$ with respect to different bases, we will denote the coordinate of $v$ with respect a particular basis $frak(B)$ as
   $
@@ -1516,6 +1562,39 @@ Hence, we can apply $bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w$ to $bol
   $
   or as $[bold(v)]_frak(B)$.
 ]
+
+#section(theorem, subtitle: [Basis Change])[
+  Let $cal(P)$ and $cal(Q)$ be two finite ordered bases of a vector space $V$ with the field $F$. Then, there is an invertible matrix $bold(T)$ such that for any $v in V$,
+  $
+    [bold(v)]_cal(P) = bold(T) [bold(v)]_cal(Q).
+  $
+  #section(proof)[
+    Let $cal(Q) = {q_1, q_2, dots.c, q_n}$. Let's define the matrix $bold(T)$ as follows:
+    $
+      bold(T) = mat(
+        |, , |;
+        [bold(q)_1]_cal(P), dots.c, [bold(q)_n]_cal(P);
+        |, , |
+      ).
+    $
+    Since $cal(Q)$ is a basis of $V$, $[bold(q)_1]_cal(P), dots.c, [bold(q)_n]_cal(P)$ are linearly independent in $F^n$. Hence, the matrix $bold(T)$ is invertible.\
+    For any $v in V$ where
+    $
+      [bold(v)]_cal(Q) = vec(v_q^1, dots.v, v_q^n)_cal(Q),
+    $
+    we have
+    $
+      bold(T) [bold(v)]_cal(Q) = sum_(i = 1)^n v_q^i [bold(q)_i]_cal(P).
+    $
+    Let $[bold(u)]_cal(P) = sum_(i = 1)^n v_q^i [bold(q)_i]_cal(P)$, we need show that $[bold(u)]_cal(P) = [bold(v)]_cal(P)$. Consider
+    $
+      I^(-1) ([bold(u)]_cal(P)) = sum_(i = 1)^n v_q^i I^(-1) ([bold(q)_i]_cal(P)) = sum_(i = 1)^n v_q^i q_i = v.
+    $
+    Hence, we have $[bold(u)]_cal(P) = [bold(v)]_cal(P)$.
+    #align(right)[$qed$]
+  ]
+]
+
 
 #section(theorem, subtitle: [Matrix Form of Linear Transformations in General Vector Spaces])[
   Let $V$ and $W$ be two vector spaces with the field $F$ and finite ordered bases $frak(B)_V = {v_1, dots.c, v_n}$ and $frak(B)_W = {w_1, dots.c, w_m}$ respectively. Let $T$ be a linear transformation from $V$ to $W$. Then, there is an $m$ by $n$ matrix $bold(T)$ such that for any vector $v in V$, if $T(v) = w$, then we have
@@ -1540,7 +1619,7 @@ Hence, we can apply $bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w$ to $bol
 ]
 
 #section(definition, subtitle: [Nullity and Rank of a Linear Transformation])[
-  Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. The #concept[nullity] of $T$ is the dimension of $ker(T)$ The #concept[rank] of $T$ is the dimension of $im(T)$, denoted by $"Rank"(T)$.
+  Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. The #concept[nullity] of $T$ is the dimension of $ker(T)$ The #concept[rank] of $T$ is the dimension of $im(T)$, denoted by $"rank"(T)$.
 ]
 
 #section(theorem, subtitle: [How a Set of Independent Vectors Span a Vector Space])[
@@ -1582,12 +1661,88 @@ Hence, we can apply $bold(T)_a_q dots.c bold(T)_a_1 bold(T)_c bold(T)_w$ to $bol
   ]
 ]
 
+#section(theorem, subtitle: [How a Set of Vectors Spanning a Vector Space Can Be Independent])[
+  Let $V$ be a vector space with the field $F$ with $dim V = n$. If $S={s_1, dots.c, s_n}$ is a set of vectors in $V$ such that $"span"(S) = V$, then $S$ is a basis of $V$.
+  #section(proof)[
+    If $S$ is linearly dependent, then there must be a vector $s_i$ in $S$ such that
+    $
+      s_i = sum_(j != i) c^j s_j,
+    $
+    for some scalars $c^j in F$. Hence,
+    $ "span"(S \\ {s_i}) = "span"(S) = V, $ but that contradicts the fact that any set of less than $n$ vectors in $V$ cannot span $V$. Thus, it must be that $S$ is linearly independent, which shows that $S$ is a basis of $V$.
+    #align(right)[$qed$]
+  ]
+]
+
 #section(theorem, subtitle: [Dimension of two Subspaces])[
   Let $V$ be a vector space with the field $F$ and let $W_1$ and $W_2$ be two subspaces of $V$. Then
   $
     dim W_1 + dim W_2 = dim (W_1 + W_2) + dim (W_1 inter W_2).
   $
   #section(proof)[
-    Consider the space $W_1 inter W_2$. Let $frak(B)_(W_1 inter W_2) = {alpha_i}_(i in I)$ be a basis of $W_1 inter W_2$. Now,
+    $W_1 inter W_2$ is a subspace of $V$ by #sref(theorem.title, <IntersectionSubspace>).
+    Let $frak(B)_(W_1 inter W_2) = {alpha_i}_(i in I)$ be a basis of $W_1 inter W_2$. Let's construct $frak(B)_W_1 = {alpha_i}_(i in I) union {beta_j}_(j in J)$ and $frak(B)_W_2 = {alpha_i}_(i in I) union {gamma_k}_(k in K)$ by finding linear independent vectors, so that they are bases of $W_1$ and $W_2$ respectively.\
+    We shall show that $frak(B)_(W_1 + W_2) = {alpha_i}_(i in I) union {beta_j}_(j in J) union {gamma_k}_(k in K)$ is a basis of $W_1 + W_2$.\
+    + $frak(B)_(W_1 + W_2)$ is a spanning set of $W_1 + W_2$:\
+      Since $W_1 + W_2$ is defined as the span of $W_1 + W_2$, any vector in $W_1 + W_2$ is a linear combination of vectors in $W_1$ and $W_2$, which are linear combinations of vectors in $frak(B)_W_1$ and $frak(B)_W_2$ respectively. Hence, any vector in $W_1 + W_2$ is a linear combination of vectors in $frak(B)_(W_1 + W_2)$.
+
+    + $frak(B)_(W_1 + W_2)$ is a linearly independent set:\
+      Consider the linear combination
+      $
+        sum_(i in I) a^i alpha_i + sum_(j in J) b^j beta_j + sum_(k in K) c^k gamma_k = 0.
+      $
+      If they are linearly dependent, then
+      $
+        sum_(i in I) a^i alpha_i + sum_(j in J) b^j beta_j = - sum_(k in K) c^k gamma_k.
+      $
+      Let $gamma = sum_(k in K) c^k gamma_k$, the above holds means that $gamma in W_1$. However, we also have $gamma in W_2$. Then $gamma in W_1 inter W_2$. But that contradicts the fact that ${alpha_i}_(i in I) union {gamma_k}_(k in K)$ is independent.
+      Hence, $frak(B)_(W_1 + W_2)$ is a linearly independent set.
+    This shows that $frak(B)_(W_1 + W_2)$ is a basis of $W_1 + W_2$ and $dim (W_1 + W_2) = abs(frak(B)_(W_1 + W_2))$. Now, since
+    $
+      abs(frak(B)_W_1) + abs(frak(B)_W_2) = abs(frak(B)_(W_1 + W_2)) + abs(frak(B)_(W_1 inter W_2)),
+    $
+    we have
+    $
+      dim W_1 + dim W_2 = dim (W_1 + W_2) + dim (W_1 inter W_2).
+    $
+    #align(right)[$qed$]
   ]
 ]
+
+#section(theorem, subtitle: [Dimension of the Image and Kernel of a Linear Transformation])[
+  Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. Then
+  $
+    dim V = "rank"(T) + "nullity"(T).
+  $
+  #section(proof)[
+    Let ${e_i}_(i in I)$ be the basis of $ker(T)$. Let's construct $frak(B)_V = {e_i}_(i in I) union {f_j}_(j in J)$ by finding linear independent vectors, so that it is a basis of $V$.\
+    + Finding $"rank"(T)$.\
+      We shall first show that $T$ is *injective* for $v in "span"({f_j}_(j in J))$:\
+      Consider any vector $v, u in "span"({f_j}_(j in J))$, if
+      $
+        T(v) = T(u),
+      $
+      then $T(v - u) = T(0)$. That means that $v - u in ker(T)$. If $v - u != 0$, then there must be a list of scalars ${alpha^i}_(i in I)$ and a list of scalars ${beta^j}_(j in J)$ such that
+      $
+        sum_(i in I) alpha^i e_i = v - u = sum_(j in J) beta^j f_j.
+      $
+      This contradicts the fact that $frak(B)_V$ is a basis of $V$. Hence, we must have $v - u = 0$, which shows that $T$ is injective for $v in "span"({f_j}_(j in J))$.\
+      Now, let's show that $T: "span"({f_j}_(j in J)) mapsto im(T)$ is *surjective*:\
+      This is automatically true by the very definition of $im(T)$.
+      This means that $T: "span"({f_j}_(j in J)) mapsto im(T)$ is a bijection and thus, an isomorphism. Hence, we have
+      $
+        dim "span"({f_j}_(j in J)) = dim im(T) = "rank"(T) = |J|.
+      $
+    + Finding $"nullity"(T)$.\
+      Since ${e_i}_(i in I)$ is a basis of $ker(T)$, we have
+      $
+        dim ker(T) = "nullity"(T) = |I|.
+      $
+    Thus,
+    $
+      dim V = |I| + |J| = "nullity"(T) + "rank"(T).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
