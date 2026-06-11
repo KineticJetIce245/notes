@@ -1746,3 +1746,38 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
   ]
 ]
 
+#pagebreak()
+== Polynomials
+Let's consider the vector space of polynomials with coefficients in a field $F$, denoted by $P_oo$. The vectors in $P_oo$ are *finite* polynomials, and the operations of vector addition and scalar multiplication are defined as follows:
+#section(definition, subtitle: [Vector Addition and Scalar Multiplication in $F[X]$])[
+  Let $p(X) = sum_(i = 0)^n a_i X^i$ and $q(X) = sum_(i = 0)^m b_i X^i$ be two polynomials in $P_oo$ and let $c$ be a scalar in $F$. Then,
+  - The vector addition of $p(X)$ and $q(X)$ is defined as
+    $
+      p(X) + q(X) = sum_(i = 0)^(max(n, m)) (a_i + b_i) X^i,
+    $
+    where we define $a_i = 0$ for all $i > n$ and $b_i = 0$ for all $i > m$.
+  - The scalar multiplication of $c$ and $p(X)$ is defined as
+    $
+      c p(X) = sum_(i = 0)^n (c a_i) X^i.
+    $
+]
+
+#section(definition, subtitle: [Zero Vector and Additive Inverse in $P_oo$])[
+  The zero vector in $P_oo$ is the zero polynomial $0(X) = 0$. The additive inverse of a polynomial $p(X) = sum_(i = 0)^n a_i X^i$ is defined as
+  $
+    -p(X) = sum_(i = 0)^n (-a_i) X^i.
+  $
+]
+
+#section(definition, subtitle: [Degree of a Polynomial])[
+  Let $p(X) = sum_(i = 0)^n a_i X^i$ be a polynomial in $P_oo$ where $a_n != 0$. Then, the degree of $p(X)$ is defined as $n$, denoted by $deg(p(X))$.
+]
+
+#section(definition, subtitle: [Finite-Degree Polynomials Vector Spaces])[
+  Let $n$ be a non-negative integer. The set of all polynomials in $P_oo$ with degree less than or equal to $n$ is denoted by $P_n (F)$, which is a subspace of $P_oo$.
+]
+
+#section(corollary, subtitle: [Standard Basis])[
+  The standard basis of $P_oo$ is the set of polynomials $cal(F) = {1, X, X^2, dots.c}$, since any subset of $cal(F)$ is linearly independent and any polynomial in $P_oo$ can be written as a linear combination of the polynomials in $cal(F)$.\
+  The standard basis of $P_n$ is the set of polynomials $cal(F)_n = {1, X, X^2, dots.c, X^n}$, since any subset of $cal(F)_n$ is linearly independent and any polynomial in $P_n$ can be written as a linear combination of the polynomials in $cal(F)_n$. Thus, $dim P_n = n + 1$.
+]
