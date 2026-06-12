@@ -1350,6 +1350,7 @@ With that, we are left with the task of figuring out how to *transform* the equa
           0, 0, 0, 1
         ).
       $
+    #align(right)[$qed$]
   ]
 ]
 
@@ -1746,6 +1747,41 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
   ]
 ]
 
+#section(theorem, subtitle: [Main Basis Theorem])[
+  Let $e_1, dots.c, e_n$ be vectors in $V$, then the following statements are equivalent:
+  + $e_1, dots.c, e_n$ span $V$ and are linearly independent.
+  + $e_1, dots.c, e_n$ span $V$ and no set of vectors in $V$ with less than $n$ vectors can span $V$.
+  + $e_1, dots.c, e_n$ are linearly independent and no set of vectors in $V$ with more than $n$ vectors can be linearly independent.
+  + For any vector $v in V$, there are unique scalars $u^1, dots.c, u^n$ such that
+    $
+      v = sum_(i = 1)^n u^i e_i.
+    $
+  #section(proof)[
+    + From 1. to 2., to 3., and vice-versa are evident.\
+      Let's show that 1. implies 4.:
+      If $e_1, dots.c, e_n$ is a basis of $V$ and a vector $v in V$ has two *different* representations as a linear combination of $e_1, dots.c, e_n$, say
+      $
+        v = sum_(i = 1)^n u^i e_i = sum_(i = 1)^n w^i e_i.
+      $
+      Then, we have
+      $
+        0 = v - v = sum_(i = 1)^n (u^i - w^i) e_i.
+      $
+      If $u_i$ and $w_i$ are different, then this means that there is a nontrivial linear combination of $e_1, dots.c, e_n$ that equals to $0$, which contradicts the fact that $e_1, dots.c, e_n$ are linearly independent. Hence, we must have $u^i = w^i$ for all $i in {1, dots.c, n}$, which shows that the representation of $v$ as a linear combination of $e_1, dots.c, e_n$ is unique.\
+      One can also easily show that 4. implies 1.: First, if any vector $v in V$ can be written as a linear combination of $e_1, dots.c, e_n$, then $e_1, dots.c, e_n$ span $V$. Second, consider $0 in V$, let $a^1, dots.c, a^n$ be scalars such that
+      $
+        0 = sum_(i = 1)^n a^i e_i,
+      $
+      if any one of the $a_i$ is nonzero, then any nonzero scaler $c$ can be multiplied to the above equation to get
+      $
+        0 = sum_(i = 1)^n (c a^i) e_i.
+      $
+      Since at least one of the $c a^i$ is nonzero, this means that there is a second way to write $0$ as a linear combination of $e_1, dots.c, e_n$, which contradicts the uniqueness of the representation of $v$ as a linear combination of $e_1, dots.c, e_n$. Hence, we must have $a^i = 0$ for all $i in {1, dots.c, n}$, which shows that $e_1, dots.c, e_n$ are linearly independent. Therefore, $e_1, dots.c, e_n$ is a basis of $V$.
+    + The equivalence of other arguments can be mediated by 1.
+      #align(right)[$qed$]
+  ]
+]
+
 #pagebreak()
 == Polynomials
 Let's consider the vector space of polynomials with coefficients in a field $F$, denoted by $P_oo$. The vectors in $P_oo$ are *finite* polynomials, and the operations of vector addition and scalar multiplication are defined as follows:
@@ -1781,3 +1817,18 @@ Let's consider the vector space of polynomials with coefficients in a field $F$,
   The standard basis of $P_oo$ is the set of polynomials $cal(F) = {1, X, X^2, dots.c}$, since any subset of $cal(F)$ is linearly independent and any polynomial in $P_oo$ can be written as a linear combination of the polynomials in $cal(F)$.\
   The standard basis of $P_n$ is the set of polynomials $cal(F)_n = {1, X, X^2, dots.c, X^n}$, since any subset of $cal(F)_n$ is linearly independent and any polynomial in $P_n$ can be written as a linear combination of the polynomials in $cal(F)_n$. Thus, $dim P_n = n + 1$.
 ]
+
+#section(corollary, subtitle: [Other Form of Basis])[
+  Consider the set ${1, X - a, (X - a)^2, dots.c}$, it is a basis of $P_oo$. For any vector $v in P_oo$,
+  $
+    v = sum_(i = 0)^n a_i X^i = sum_(i = 0)^n a_i ((X - a) + a)^i = sum_(i = 0)^n (sum_(j = 0)^i a_i binom(i, j) a^(i - j) (X - a)^j).
+  $
+  One can also use *Taylor expansion* to show find the coefficients of the linear combination of $1, X - a, (X - a)^2, dots.c$ that equals to $v$,
+  $
+    v = sum_(n = 0)^m (v^((n)) (a)) / n! (X - a)^n.
+  $
+]
+
+#pagebreak()
+
+= Diagonalization
