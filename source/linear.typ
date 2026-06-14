@@ -41,6 +41,8 @@
 #let corollary = (title: "Corollary", color: rgb("#3355bb"))
 #let lemma = (title: "Lemma", color: rgb("#8822aa"))
 
+#let pyglue(n, c) = {}
+
 // Start of the document
 = Complex Numbers
 == Structure of Complex Numbers
@@ -1619,6 +1621,35 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
   ]
 ]
 
+#section(theorem, subtitle: [Change of Basis for Linear Transformations])[
+  Let $T: V mapsto V$ be a linear operator on the vectors space $V$ with the field $F$.\
+  If $[bold(T)]_(cal(V)_1)$ is the matrix representation of $T$ with respect to the bases $cal(V)_1$, and $cal(V)_2$ is another ordered basis of $V$, then there is an invertible matrix $bold(P)$ such that
+  $
+    [bold(T)]_(cal(V)_2) = bold(P) [bold(T)]_(cal(V)_1) bold(P)^(-1),
+  $
+  where $bold(P)$ is precisely the matrix that changes the basis from $cal(V)_1$ to $cal(V)_2$.
+
+  #section(proof)[
+    Let $bold(P)$ be the matrix that changes the basis from $cal(V)_1$ to $cal(V)_2$. Then, for any vector $v in V$, we have
+    $
+      bold(P) [bold(T)]_(cal(V)_1) [bold(v)]_(cal(V)_1) = I_(cal(V)_2) compose T (v) = [bold(T)]_(cal(V)_2) [bold(v)]_(cal(V)_2).
+    $
+    Now, since $bold(P)$ is invertible, we have
+    $
+      [bold(v)]_(cal(V)_1) = bold(P)^(-1) [bold(v)]_(cal(V)_2).
+    $
+    Thus,
+    $
+      bold(P) [bold(T)]_(cal(V)_1) bold(P)^(-1) [bold(v)]_(cal(V)_2) = bold(P) [bold(T)]_(cal(V)_1) [bold(v)]_(cal(V)_1) = [bold(T)]_(cal(V)_2) [bold(v)]_(cal(V)_2).
+    $
+    Therefore, we have
+    $
+      bold(P) [bold(T)]_(cal(V)_1) bold(P)^(-1) = [bold(T)]_(cal(V)_2).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
 #section(definition, subtitle: [Nullity and Rank of a Linear Transformation])[
   Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. The #concept[nullity] of $T$ is the dimension of $ker(T)$ The #concept[rank] of $T$ is the dimension of $im(T)$, denoted by $"rank"(T)$.
 ]
@@ -1675,7 +1706,7 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
   ]
 ]
 
-#section(theorem, subtitle: [Dimension of two Subspaces])[
+#section(theorem, subtitle: [Dimension of Two Subspaces])[
   Let $V$ be a vector space with the field $F$ and let $W_1$ and $W_2$ be two subspaces of $V$. Then
   $
     dim W_1 + dim W_2 = dim (W_1 + W_2) + dim (W_1 inter W_2).
@@ -1708,7 +1739,7 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
     $
     #align(right)[$qed$]
   ]
-]
+]<DimTwoSubspaces>
 
 #section(theorem, subtitle: [Dimension of the Image and Kernel of a Linear Transformation])[
   Let $T$ be a linear transformation from a vector space $V$ to a vector space $W$ with dimensions. Then
@@ -1745,7 +1776,7 @@ Note that $v != bold(v)$ in general, since $v$ and $bold(v)$ are not necessarily
     $
     #align(right)[$qed$]
   ]
-]
+]<DimImgKerLinTran>
 
 #section(theorem, subtitle: [Main Basis Theorem])[
   Let $e_1, dots.c, e_n$ be vectors in $V$, then the following statements are equivalent:
@@ -1831,4 +1862,260 @@ Let's consider the vector space of polynomials with coefficients in a field $F$,
 
 #pagebreak()
 
-= Diagonalization
+= Linear Transformations
+== Special Linear Transformations
+#section(definition, subtitle: [Linear Operators])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear transformation, then $T$ is called a #concept[linear operator] on $V$.
+]
+
+#section(corollary, subtitle: [Injective, Surjective, and Bijective Linear Operators])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear operator on $V$. Then,
+  $
+    T "is injective" <=> "T is surjective" <=> "T is bijective".
+  $
+  #section(proof)[
+    If $T$ is injective, then $ker(T) = {0}$, which means that $dim ker(T) = 0$. Hence, by #sref(theorem.title, <DimImgKerLinTran>), we have $"rank"(T) = dim V$. Therefore, $T$ is surjective.\
+    If $T$ is surjective, then $im(T) = V$, which means that $dim im(T) = dim V$. Hence, by #sref(theorem.title, <DimImgKerLinTran>), we have $"nullity"(T) = 0$. Therefore, $T$ is injective.\
+  ]
+]
+
+#section(definition, subtitle: [Scaling Transformations])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear operator on $V$. If there exists a basis ${e_1, dots.c, e_n}$ such that for all $i in {1, dots.c, n}$,
+  $
+    T(e_i) = lambda^i e_i,
+  $
+  where $lambda^i$ is a scalar for all $i in {1, dots.c, n}$. Then $T$ is called a #concept[scaling transformation] on $V$.
+]
+
+#section(theorem, subtitle: [Direct Sum Decomposition I])[
+  Let $V = U plus.o W$ be a vector space and $frak(B)_U$ and $frak(B)_W$ be bases of $U$ and $W$ respectively. Then, $frak(B) = frak(B)_U union frak(B)_W$ is a basis of $V$.
+  #section(proof)[
+    This is a special case of #sref(theorem.title, <DimTwoSubspaces>), since $U inter W = {0}$, we have
+    $
+      frak(B)_(U + W) = frak(B)_U union frak(B)_W,
+    $
+    where $frak(B)_(U + W)$ is a basis of $U + W = V$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Direct Sum Decomposition])[
+  Let $V = U plus.o W$ be a vector space, then for any vector $v in V$, there exists a unique vector $u in U$ and a unique vector $w in W$ such that
+  $
+    v = u + w.
+  $
+  #section(proof)[
+    Let $frak(B)_U = {u_1, dots.c, u_n}$ and $frak(B)_W = {w_1, dots.c, w_m}$ be bases of $U$ and $W$ respectively.
+    From the theorem above, we know that there is a basis $frak(B) = frak(B)_U union frak(B)_W$ of $V$. Since $frak(B)$ is a basis of $V$, any vector $v in V$ can be written as a linear combination of the vectors in $frak(B)$, say
+    $
+      v = sum_(i = 1)^n a^i u_i + sum_(j = 1)^m b^j w_j.
+    $
+    From the main basis theorem, we know that the representation of $v$ as a linear combination of the vectors in $frak(B)$ is unique. Moreover,
+    $
+      sum_(i = 1)^n a^i u_i in U, sum_(j = 1)^m b^j w_j in W,
+    $
+    where they correspond to a unique vector $u in U$ and a unique vector $w in W$ respectively. Hence, we have
+    $
+      v = u + w,
+    $
+    where $u$ and $w$ are unique.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(definition, subtitle: [Projection Transformations])[
+  Let $V = U plus.o W$ be a vector space. From the theorem above, we know that for any vector $v in V$, there is a unique vector $u in U$ and a unique vector $w in W$ such that $ v = u + w. $
+  The linear transformation $P_U: V mapsto V$ defined by
+  $
+    P_U (v) = u = v - w,
+  $
+  is called the #concept[projection transformation] of $V$ onto $U$ along $W$.\
+  #section(proof)[
+    We shall show that $P_U$ is a linear transformation:\
+    Consider any vectors $v_1, v_2 in V$ and any scalar $c in F$, we have
+    $
+      v_1 = u_1 + w_1, v_2 = u_2 + w_2.
+    $
+    Applying $P_U$ on $c v_1 + v_2$ we have
+    $
+      P_U (c v_1 + v_2) = P_U (c u_1 + c w_1 + u_2 + w_2).
+    $
+    Now, since $c u_1 + u_2 in U$, $c w_1 + w_2 in W$, and $c v_1 + v_2 in V$, we have
+    $
+      P_U (c v_1 + v_2) = c u_1 + u_2 = c P_U (v_1) + P_U (v_2).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
+#pyglue("Vectors", ```python
+
+```)
+
+#section(definition, subtitle: [Reflection Transformations])[
+  Let $V = U plus.o W$ be a vector space. From the theorem above, we know that for any vector $v in V$, there is a unique vector $u in U$ and a unique vector $w in W$ such that $ v = u + w. $
+  The linear transformation $R_U: V mapsto V$ defined by
+  $
+    R_U (v) = u - w,
+  $
+  is called the #concept[reflection transformation] of $V$ about $U$ along $W$.
+  #section(proof)[
+    A similar argument as the one for projection transformation can be used to show that $R_U$ is a linear transformation.
+  ]
+]
+
+#pagebreak()
+== Eigenvalues, Eigenvectors, and Eigenspaces
+#section(definition, subtitle: [Eigenvalues and Eigenvectors])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear transformation. A scalar $lambda$ is an #concept[eigenvalue] of $T$ if there is a nonzero vector $v in V$ such that
+  $
+    T(v) = lambda v.
+  $
+  A such nonzero vector $v$ is called an #concept[eigenvector] of $T$ corresponding to the eigenvalue $lambda$.
+]
+
+#section(definition, subtitle: [Eigenspace])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear transformation. For any scalar $lambda$, the set of all eigenvectors of $T$ corresponding to $lambda$ together with the zero vector is called the #concept[eigenspace] of $T$ corresponding to $lambda$, denoted by $E_lambda$.
+]
+
+#section(theorem, subtitle: [Eigenspace is a Subspace])[
+  Let $V$ be a vector space and $T: V mapsto V$ be a linear transformation. For any scalar $lambda$, the eigenspace $E_lambda$ of $T$ corresponding to $lambda$ is a subspace of $V$.
+  #section(proof)[
+    Since $E_lambda$ contains the zero vector, it is nonempty.\
+    For any vectors $v, w in E_lambda$ and $a in F$, we have
+    $
+      T(a v + w) = a T(v) + T(w) = lambda a v + lambda w = lambda (a v + w).
+    $
+    Hence, $a v + w in E_lambda$.\
+    Therefore, $E_lambda$ is a subspace of $V$.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Eigenspaces of Different Scalars])[
+  Let $lambda_1 != lambda_2$ be two scalars and $E_(lambda_1)$ and $E_(lambda_2)$ be the eigenspaces of a linear transformation $T: V mapsto V$ corresponding to $lambda_1$ and $lambda_2$ respectively. Then, we have
+  $
+    E_(lambda_1) inter E_(lambda_2) = {0}.
+  $
+  #section(proof)[
+    Let $v in V$ and $v in E_(lambda_1) inter E_(lambda_2)$, then we have
+    $
+      T(v) = lambda_1 v = lambda_2 v.
+    $
+    This only holds if $v = 0$. Hence, we have
+    $
+      E_(lambda_1) inter E_(lambda_2) = {0}.
+    $
+  ]
+]
+
+#section(convention, subtitle: [Eigenspaces Containing Zero Only])[
+  Let $E_lambda$ be the eigenspace of a linear transformation $T: V mapsto V$ corresponding to a scalar $lambda$. If $E_lambda$ contains only the zero vector, then we shall exclude $lambda$ from the set of eigenvalues of $T$ and exclude $E_lambda$ from the set of eigenspaces of $T$.
+]
+
+#section(theorem, subtitle: [Eigenspaces of a Scaling])[
+  Let $T: V mapsto V$ be a linear transformation, it is a scaling transformation if and only if there is $Lambda = {lambda^1, dots.c, lambda^m} subset.eq F$ such that
+  $
+    V = plus.o.big_(lambda^i in Lambda) E_(lambda^i).
+  $
+  #section(proof)[
+    Let $T$ be scaling transformation, then there is a basis ${e_1, dots.c, e_n}$ such that for all $i in {1, dots.c, n}$,
+    $
+      T(e_i) = lambda^i e_i.
+    $
+    For any vector $v in V$, we have
+    $
+      v = sum_(i = 1)^n u^i e_i.
+    $
+    But for all $i in {1, dots.c, n}$, we have
+    $
+      e_i in E_(lambda^i).
+    $
+    This means that $v in plus.o.big_(lambda^i in Lambda) E_(lambda^i)$, which shows that
+    $
+      V subset.eq plus.o.big_(lambda^i in Lambda) E_(lambda^i).
+    $
+    Since $E_(lambda^i) subset.eq V$ for all $i in {1, dots.c, n}$, we have
+    $
+      V = plus.o.big_(lambda^i in Lambda) E_(lambda^i).
+    $
+    Now let's show that if there is $Lambda = {lambda^1, dots.c, lambda^m} in F$ such that
+    $
+      V = plus.o.big_(lambda^i in Lambda) E_(lambda^i),
+    $
+    then $T$ is a scaling transformation:\
+    Let $frak(B)_(lambda^i)$ be the basis of $E_(lambda^i)$ for all $i in {1, dots.c, n}$. From the theorem above, we know that
+    $
+      frak(B) = union.big_(lambda^i in Lambda) frak(B)_(lambda^i) = {e_1, dots.c, e_n},
+    $
+    is a basis of $V$. However, from the way that we construct $frak(B)$, we have
+    $
+      T(e_i) = lambda^i e_i,
+    $
+    hence, $T$ is a scaling transformation.
+  ]
+]
+
+#section(corollary, subtitle: [Projection's Eigenspaces])[
+  Let $P_U$ be a projection transformation of $V = U plus.o W$, then $E_1 = U$, $E_0 = W$, and $V = E_1 plus.o E_0$.
+]
+
+#section(definition, subtitle: [Diagonalization])[
+  Let $T$ be a linear operator on a vector space $V$ and $frak(B)$ be a basis of $V$. Then $T$ is called #concept[diagonalizable] if the matrix $[bold(T)]_frak(B)$ associated with $T$ can be expressed as
+  $
+    [bold(T)]_frak(B) = bold(Q) bold(D) bold(Q)^(-1),
+  $
+  where $bold(D)$ is a diagonal matrix and $bold(Q)$ is an invertible matrix.
+]
+
+#section(theorem, subtitle: [Scaling and Diagonalization])[
+  Let $T$ be a linear operator on a vector space $V$. If $T$ is a scaling transformation, then $T$ is diagonalizable.
+  #section(proof)[
+    Let $frak(B)$ be a basis of $V$, and $cal(V) = {e_1, dots.c, e_n}$ be the basis of $V$ such that for all $i in {1, dots.c, n}$,
+    $
+      T(e_i) = lambda^i e_i.
+    $
+    If we express $T$ with respect to the basis $cal(V)$, then we have
+    $
+      [bold(T)]_cal(V) = bold(D),
+    $
+    where $bold(D)$ is a diagonal matrix with the diagonal entries being $lambda^1, dots.c, lambda^n$. Consider the basis changing matrix $bold(Q)$ from $cal(V)$ to $frak(B)$, then we have
+    $
+      [bold(T)]_frak(B) = bold(Q) [bold(T)]_cal(V) bold(Q)^(-1) = bold(Q) bold(D) bold(Q)^(-1).
+    $
+
+  ]
+]
+
+It is important to note that *invertible* and *diagonalizable* are two different properties of linear transformations. Whether a linear transformation is *invertible* depends on whether it brings *non-zero vectors* to *zero*, while *diagonalizability* depends on whether the linear transformation *can be described as purely scaling, even if it may scale a basis to zero*. Hence, a linear transformation can be diagonalizable but not invertible, and vice versa.\
+For instance, let's consider the linear transformation $T$ defined by the matrix
+$
+  [bold(T)]_cal(V) = mat(
+    1, 0;
+    0, 0
+  )
+$
+It is clear that $T$ is not invertible. However, $T$ is diagonalizable, since $[bold(T)]_cal(V)$ is already a diagonal matrix. It can be decomposed as
+$
+  I_cal(V) [bold(T)]_cal(V) I_cal(V)^(-1) = [bold(T)]_cal(V).
+$
+On the other hand, the *shear transformation* defined by the matrix
+$
+  [bold(S)]_cal(V) = mat(
+    1, 1;
+    0, 1
+  )
+$
+is invertible. However, $S$ is not diagonalizable. If we where to consider the equation
+$
+  [bold(S)]_cal(V) vec(x, y)_cal(V) = vec(x + y, y)_cal(V) = lambda vec(x, y)_cal(V),
+$
+we can see that $lambda$ can only takes $1$ as eigenvalue, so that $y = lambda y$ makes sense. Then, the respective eigenspaces are
+$
+  E_1 = {vec(x, 0)_cal(V) : x in F}.
+$
+$E_1$ does not equal to $V$. Hence, $S$ is not diagonalizable. This means that $S$ performed some transformation that can not be explained by purely scaling, even though it is invertible.\
+
+#section(theorem, subtitle: [Triangular Matrix])[
+  Let $bold(T)$ be a upper triangular matrix. Then, $bold(T)$'s eigenvalues are the entries on the diagonal of $bold(T)$.
+]
