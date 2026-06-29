@@ -409,14 +409,217 @@ $E_1$ does not equal to $V$. Hence, $S$ is not diagonalizable. This means that $
 ]
 
 #pagebreak()
-== Determinants and Characteristic Polynomials
-In order to introduce
+== Determinants
+#section(definition, subtitle: [Multilinear Map])[
+  Let $T: V^n mapsto W$, where $V$ and $W$ are vector spaces, be a map that takes $n$ vectors in $V$ as input and outputs a vector in $W$. We say that $T$ is a #concept[multilinear map] if for each $i in {1, dots.c, n}$, there is
+  $
+    T(v_1, dots.c, a v_i + v_i^', dots.c, v_n) = a T(v_1, dots.c, v_i, dots.c, v_n) + T(v_1, dots.c, v_i^', dots.c, v_n),
+  $
+  where $v_1, dots.c, v_n$ are vectors in $V$, $a$ is a scalar, and $v_i^'$ is a vector in $V$ for all $i in {1, dots.c, n}$.
+]
+
+#section(definition, subtitle: [Alternating Multilinear Map])[
+  Let $T: V^n mapsto W$ be a multilinear map, we say that $T$ is an #concept[alternating multilinear map] if for any vectors $v_1, dots.c, v_n in V$ and any $i, j in {1, dots.c, n}$ with $i != j$, we have
+  $
+    T(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) = 0.
+  $
+]
+
+#section(definition, subtitle: [Determinant])[
+  Let $V$ be a vector space of dimension $n$ with a basis $frak(B) = {e_1, dots.c, e_n}$. The #concept[determinant] is an *alternating multilinear map* that takes $n$ vectors in $V$ as input and outputs a scalar, denoted by $det: V^n mapsto F$, such that
+  $
+    det(e_1, dots.c, e_n) = 1.
+  $
+  For a linear operator $T$ on $V$, the determinant of $T$ is defined as
+  $
+    det(T) = det(T(e_1), dots.c, T(e_n)).
+  $
+  Notice that
+  $
+    T(e_i) = T_i,
+  $
+  where $T_i$ is the $i$-th column of the matrix $[bold(T)]_frak(B)$ associated with $T$. Hence, we can also express the determinant of $T$ as
+  $
+    det(T) = det(T_1, dots.c, T_n).
+  $
+]
+
+Note that determinant only acts on $n$ vectors in $V$, where $n$ is the dimension of $V$. In order words, it only applies to linear operators on $V$, which are represented by *square matrices*.
+
+#section(theorem, subtitle: [Antisymmetric Property of Determinant])[
+  Let $v_1, dots.c, v_n in V$, then we have
+  $
+    det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) = - det(v_1, dots.c, v_j, dots.c, v_i, dots.c, v_n)
+  $
+  for any $i, j in {1, dots.c, n}$ with $i != j$.\
+  #section(proof)[
+    Since $det$ is an alternating multilinear map, we have
+    $
+      det(v_1, dots.c, v_i + v_j, dots.c, v_i + v_j, dots.c, v_n) = 0.
+    $
+    Expanding the left-hand side of the equation above, we have
+    $
+      det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) + det(v_1, dots.c, v_j, dots.c, v_i, dots.c, v_n) = 0.
+    $
+    Hence,
+    $
+      det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) = - det(v_1, dots.c, v_j, dots.c, v_i, dots.c, v_n).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
+#section(theorem, subtitle: [Determinant Unchanged for Adding a Multiple of One Vector to Another])[
+  Let $v_1, dots.c, v_n in V$, then we have
+  $
+    det(v_1, dots.c, v_i + a v_j, dots.c, v_j, dots.c, v_n) = det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n)
+  $
+  for any $i, j in {1, dots.c, n}$ with $i != j$ and any scalar $a$.
+  #section(proof)[
+    $
+      & det(v_1, dots.c, v_i + a v_j, dots.c, v_j, dots.c, v_n) \
+      & = det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) + a det(v_1, dots.c, v_j, dots.c, v_j, dots.c, v_n) \
+      & = det(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
 Consider the matrix
 $
   bold(A) = mat(
-    2, 1;
-    1, 3
-  )
+    A_1^1, A_2^1, dots.c, A_n^1;
+    A_1^2, A_2^2, dots.c, A_n^2;
+    dots.v, dots.v, dots.down, dots.v;
+    A_1^n, A_2^n, dots.c, A_n^n
+  ),
 $
-#section(definition, subtitle: [])[
+the determinant of $bold(A)$ is given by
+$
+  det(bold(A)) = det(A_1, dots.c, A_n) = det(sum_(i = 1)^n A_1^i e_i, dots.c, sum_(i = 1)^n A_n^i e_i).
+$
+Since each of the summations above is independent of each other, we shall index the summations with different variables:
+$
+  det(bold(A)) = det(sum_(i_1 = 1)^n A_1^(i_1) e_(i_1), dots.c, sum_(i_n = 1)^n A_n^(i_n) e_(i_n)).
+$
+Now, we can expand the determinant of $bold(A)$ as follows:
+$
+  det(bold(A)) = sum_(i_1 = 1)^n dots.c sum_(i_n = 1)^n A_1^(i_1) dots.c A_n^(i_n) det(e_(i_1), dots.c, e_(i_n)).
+$
+Consider the term $det(e_(i_1), dots.c, e_(i_n))$ in the equation above, if there are two indices $i_j$ and $i_k$ with $j != k$ such that $i_j = i_k$, then we have
+$
+  det(e_(i_1), dots.c, e_(i_n)) = 0.
+$
+For instance, when $n = 3$, the term
+$
+  A^1_1 A^2_2 A^2_3 det(e_1, e_2, e_2) = 0
+$
+because $i_2 = i_3 = 2$. Hence, the term $A^1_1 A^2_2 A^2_3 det(e_1, e_2, e_2)$ does not contribute to the value of $det(bold(A))$.\
+This means that we only need to consider the terms in the expansion of $det(bold(A))$ such that $i_1, dots.c, i_n$ are all different, or in other words, all the different ways of attributing the indices $1, dots.c, n$ to $i_1, dots.c, i_n$.\
+
+To *efficiently* express the expansion of $det(bold(A))$, we can use the concept of *permutation*. A #concept[permutation] of the set ${1, dots.c, n}$ is a bijective function $sigma: {1, dots.c, n} mapsto {1, dots.c, n}$. For instance, when $n = 3$, the function $sigma$ defined by
+$
+  sigma(1) = 2, sigma(2) = 3, sigma(3) = 1
+$
+is a permutation of the set ${1, 2, 3}$. The set of all permutations of the set ${1, dots.c, n}$ is denoted by $S_n$.\
+
+Attributing the indices $1, dots.c, n$ to $i_1, dots.c, i_n$ can be represented by a permutations of the set ${1, dots.c, n}$. For instance, when $n = 3$, we can use the permutation $sigma$ defined by
+$
+  sigma(1) = 2, sigma(2) = 3, sigma(3) = 1
+$
+to attribute the indices $1, 2, 3$ to $i_1, i_2, i_3$ as follows:
+$
+  i_1 = sigma(1) = 2, i_2 = sigma(2) = 3, i_3 = sigma(3) = 1.
+$
+Since *different permutations attribute the indices in different ways*, to sum over all the different ways of attributing the indices, we can sum over all the different permutations. Hence, we can express the determinant of $bold(A)$ as
+$
+  sum_(i_1 = 1)^n dots.c sum_(i_n = 1)^n A_1^(i_1) dots.c A_n^(i_n) det(e_(i_1), dots.c, e_(i_n)) = sum_(sigma in S_n) A_1^(sigma(1)) dots.c A_n^(sigma(n)) det(e_(sigma(1)), dots.c, e_(sigma(n))),
+$
+where $S_n$ is the set of all permutations of the set ${1, dots.c, n}$.\
+
+In order to further simplify the expression of $det(bold(A))$, we can use the antisymmetric property of determinant. We are allowed to swap the basis vectors in the term $det(e_(sigma(1)), dots.c, e_(sigma(n)))$ to get $det(e_1, dots.c, e_n)$, which is equal to $1$. However, the sign changes for each swap. Depending on the number of swaps we need to perform, the sign of the term can be either positive or negative.\
+
+Let $"sgn"(sigma)$ be a function that takes a permutation $sigma$ as input and outputs $1$ if the number of swaps we need to perform is even, and outputs $-1$ if the number of swaps we need to perform is odd.
+We can then express the determinant of $bold(A)$ as
+$
+  det(bold(A)) = sum_(sigma in S_n) "sgn"(sigma) A_1^(sigma(1)) dots.c A_n^(sigma(n))
+  = sum_(sigma in S_n) "sgn"(sigma) product_(i = 1)^n A_i^(sigma(i)).
+$
+This is called the #concept[Leibniz formula] for the determinant of a matrix.
+
+#section(theorem, subtitle: [Leibniz Formula])[
+  Let $bold(A)$ be a matrix, then the determinant of $bold(A)$ is given by
+  $
+    det(bold(A)) = sum_(sigma in S_n) "sgn"(sigma) product_(i = 1)^n A_i^(sigma(i)),
+  $
+  where $S_n$ is the set of all permutations of the set ${1, dots.c, n}$ and $"sgn"(sigma)$ is a function that takes a permutation $sigma$ as input and outputs $1$ if the number of swaps we need to perform is even, and outputs $-1$ if the number of swaps we need to perform is odd.
+]
+
+#section(theorem, subtitle: [Determinant of a Transpose])[
+  Let $bold(A)$ be a squared matrix. The #concept[transpose] of $bold(A)$, denoted by $bold(A)^top$, is the matrix obtained by swapping the rows and columns of $bold(A)$:
+  $
+    bold(A)^top = mat(
+      dash.em, A_1, dash.em;
+      , dots.v, ;
+      dash.em, A_n, dash.em
+    ).
+  $
+  We have
+  $
+    det(bold(A)^top) = det(bold(A)).
+  $
+  #section(proof)[
+    From the Leibniz formula, we have
+    $
+      det(bold(A)^top) = sum_(sigma in S_n) "sgn"(sigma) product_(i = 1)^n A_(sigma(i))^i
+    $
+    and
+    $
+      det(bold(A)) = sum_(tau in S_n) "sgn"(tau) product_(i = 1)^n A_i^(tau(i)).
+    $
+    The idea is simple, if we can find a $tau$ for each $sigma$ such that
+    $
+      "sgn"(sigma) product_(i = 1)^n A_(sigma(i))^i = "sgn"(tau) product_(j = 1)^n A_j^(tau(j)),
+    $
+    and vice versa, it means that the two summations are summing the same terms, which shows that $det(bold(A)^top) = det(bold(A))$.\
+    To do so, let's rewrite the product in the equation above as follows:
+    $
+      "sgn"(tau) product_(j = 1)^n A_j^(tau(j)) = "sgn"(tau) product_(j in {1, dots.c, n}) A_j^(tau(j)).
+    $
+    Since $sigma$ is a permutation of the set ${1, dots.c, n}$, we can rewrite the product in the equation above using $sigma(i)$ to replace $j$ as follows:
+    $
+      "sgn"(tau) product_(j in {1, dots.c, n}) A_j^(tau(j)) = "sgn"(tau) product_(i in {1, dots.c, n}) A_(sigma(i))^(tau(sigma(i))).
+    $
+    Now, it is clear that if we let $tau$ be the inverse of $sigma$, that is $tau = sigma^(-1)$, we have
+    $
+      "sgn"(tau) product_(i in {1, dots.c, n}) A_(sigma(i))^(tau(sigma(i))) = "sgn"(tau) product_(i = 1) A_(sigma(i))^i.
+    $
+    We are only left to show that $"sgn"(tau) = "sgn"(sigma)$. To do so, let's consider the following list:
+    $
+      (1,sigma(1)), (2, sigma(2)), dots.c, (n, sigma(n)).
+    $
+    Since $tau = sigma^(-1)$, swapping $sigma$ to the right order is equivalent to swapping the list above to the following order:
+    $
+      (tau(1), 1), (tau(2), 2), dots.c, (tau(n), n).
+    $
+    If it takes $m$ steps to swap
+    $
+      (1, sigma(1)), (2, sigma(2)), dots.c, (n, sigma(n)) "to" (tau(1), 1), (tau(2), 2), dots.c, (tau(n), n),
+    $
+    then it also takes $m$ steps to swap
+    $
+      (tau(1), 1), (tau(2), 2), dots.c, (tau(n), n) "to" (1, sigma(1)), (2, sigma(2)), dots.c, (n, sigma(n)).
+    $
+    Hence, $"sgn"(tau) = "sgn"(sigma)$.\
+    Therefore, we showed that for each $sigma$, there is a $tau$ such that
+    $
+      "sgn"(sigma) product_(i = 1)^n A_(sigma(i))^i = "sgn"(tau) product_(j = 1)^n A_j^(tau(j)).
+    $
+    For the same argument, we can also show that for each $tau$, there is a $sigma$ such that
+    $
+      "sgn"(tau) product_(j = 1)^n A_j^(tau(j)) = "sgn"(sigma) product_(i = 1)^n A_(sigma(i))^i.
+    $
+    Hence, the two summations in the equations above are summing the same terms, which shows that $det(bold(A)^top) = det(bold(A))$.
+    #align(right)[$qed$]
+  ]
 ]
