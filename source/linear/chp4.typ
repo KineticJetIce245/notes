@@ -419,7 +419,7 @@ $E_1$ does not equal to $V$. Hence, $S$ is not diagonalizable. This means that $
 ]
 
 #section(definition, subtitle: [Alternating Multilinear Map])[
-  Let $T: V^n mapsto W$ be a multilinear map, we say that $T$ is an #concept[alternating multilinear map] if for any vectors $v_1, dots.c, v_n in V$ and any $i, j in {1, dots.c, n}$ with $i != j$, we have
+  Let $T: V^n mapsto W$ be a multilinear map, we say that $T$ is an #concept[alternating multilinear map] if for any vectors $v_1, dots.c, v_n in V$ and any $i, j in {1, dots.c, n}$ with $i != j$, $v_i = v_j$, then we have
   $
     T(v_1, dots.c, v_i, dots.c, v_j, dots.c, v_n) = 0.
   $
@@ -539,7 +539,7 @@ where $S_n$ is the set of all permutations of the set ${1, dots.c, n}$.\
 
 In order to further simplify the expression of $det(bold(A))$, we can use the antisymmetric property of determinant. We are allowed to swap the basis vectors in the term $det(e_(sigma(1)), dots.c, e_(sigma(n)))$ to get $det(e_1, dots.c, e_n)$, which is equal to $1$. However, the sign changes for each swap. Depending on the number of swaps we need to perform, the sign of the term can be either positive or negative.\
 
-Let $"sgn"(sigma)$ be a function that takes a permutation $sigma$ as input and outputs $1$ if the number of swaps we need to perform is even, and outputs $-1$ if the number of swaps we need to perform is odd.
+Let $"sgn"(sigma)$ be a function that takes a permutation $sigma$ as input and outputs $1$ if the number of swaps we need to perform is even, and outputs $-1$ if the number of swaps we need to perform is odd. *It is proven that $"sgn"(sigma)$ is an invariant*, that is, regardless of how we swap the basis vectors, if one way of swapping $sigma$ requires an even number of swaps, then all the other ways of swapping $sigma$ also require an even number of swaps, and vice versa. We shall not prove this here.
 We can then express the determinant of $bold(A)$ as
 $
   det(bold(A)) = sum_(sigma in S_n) "sgn"(sigma) A_1^(sigma(1)) dots.c A_n^(sigma(n))
@@ -621,5 +621,97 @@ This is called the #concept[Leibniz formula] for the determinant of a matrix.
     $
     Hence, the two summations in the equations above are summing the same terms, which shows that $det(bold(A)^top) = det(bold(A))$.
     #align(right)[$qed$]
+  ]
+
+  #section(theorem, subtitle: [Determinants of Products])[
+    Let $bold(A)$ and $bold(B)$ be two square matrices of the same size, then we have
+    $
+      det(bold(A) bold(B)) = det(bold(A)) det(bold(B)).
+    $
+    #section(proof)[
+      Let $bold(A)$ and $bold(B)$ be two square matrices of the same size, then
+      $
+        bold(A) bold(B) = mat(
+          sum_(i = 1)^n A^1_i B^i_1, dots.c, sum_(i = 1)^n A^1_i B^i_n;
+          dots.v, dots.down, dots.v;
+          sum_(i = 1)^n A^n_i B^i_1, dots.c, sum_(i = 1)^n A^n_i B^i_n
+        ).
+      $
+      Let's plugin the Leibniz formula for the determinant of $bold(A) bold(B)$:
+      $
+        det(bold(A) bold(B)) &= sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n sum_(i = 1)^n A^sigma(j)_i B^i_j\
+        &= sum_(sigma in S_n) "sgn"(sigma) (sum_(i_1 = 1)^n A^sigma(1)_(i_1) B^(i_1)_(1)) dots.c (sum_(i_n = 1)^n A^sigma(n)_(i_n) B^(i_n)_(n))\
+        &= sum_(sigma in S_n) "sgn"(sigma) (A^sigma(1)_(1) B^(1)_(1) dots.c A^sigma(n)_(1) B^(1)_(n) + dots.c + A^sigma(1)_(n) B^(n)_(1) dots.c A^sigma(n)_(n) B^(n)_(n))\
+        &= sum_(sigma in S_n) "sgn"(sigma) sum_(i_1 = 1)^n dots.c sum_(i_n = 1)^n A^sigma(1)_(i_1) B^(i_1)_(1) dots.c A^sigma(n)_(i_n) B^(i_n)_(n)\
+        &= sum_(i_1 = 1)^n dots.c sum_(i_n = 1)^n sum_(sigma in S_n) "sgn"(sigma) A^sigma(1)_(i_1) dots.c A^sigma(n)_(i_n) B^(i_1)_(1) dots.c B^(i_n)_(n).
+      $
+      Now, lets focus on the sum
+      $
+        sum_(sigma in S_n) "sgn"(sigma) A^sigma(1)_(i_1) dots.c A^sigma(n)_(i_n) = sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n A^sigma(j)_(i_j).
+      $
+      Since the values of $i_1, dots.c, i_n$ are arbitrary numbers in ${1, dots.c n}$, consider the case where an $i_u = i_w$ with $u != w$. The sum can be expressed as
+      $
+        sum_(sigma in S_n) "sgn"(sigma) A^sigma(1)_(i_1) dots.c A^sigma(u)_(i_u) dots.c A^sigma(w)_(i_w) dots.c A^sigma(n)_(i_n).
+      $
+      For any particular $sigma in S_n$, there exists a unique $sigma^' in S_n != sigma$ such that
+      $
+        sigma^' (j) = sigma(j) "if" j != u, w, quad sigma^' (u) = sigma(w), quad "and" sigma^' (w) = sigma(u).
+      $
+      But since $i_u = i_w$, we have
+      $
+        product_(j = 1)^n A^sigma(j)_(i_j) = product_(j = 1)^n A^(sigma^' (j))_(i_j).
+      $
+      However, since $sigma^'$ is simply $sigma$ plus a swap of $u$ and $w$, *it must be so that $sigma^'$ takes one more or one less swap comparing to $sigma$*. In other words, $"sgn"(sigma)$ and $"sgn"(sigma^')$ must have opposite signs. Hence, we have
+      $
+        "sgn"(sigma) product_(j = 1)^n A^sigma(j)_(i_j) + "sgn"(sigma^') product_(j = 1)^n A^(sigma^' (j))_(i_j) = 0.
+      $
+      But this is true for any $sigma in S_n$, which means that the sum
+      $
+        sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n A^sigma(j)_(i_j) = 0,
+      $
+      if there is any $i_u = i_w$ with $u != w$. This means that the sum is non-zero only if all $i_1, dots.c, i_n$ are different. In other words, the sum is non-zero only if $i_1, dots.c, i_n$ are a permutation of the set ${1, dots.c, n}$.\
+      Hence, we can reduce and rearrange the sum as follows:
+      $
+        det(bold(A) bold(B)) &= sum_(sigma in S_n) "sgn"(sigma) sum_(i_1 = 1)^n dots.c sum_(i_n = 1)^n A^sigma(1)_(i_1) B^(i_1)_(1) dots.c A^sigma(n)_(i_n) B^(i_n)_(n)\
+        &= sum_(rho in S_n) sum_(sigma in S_n) "sgn"(sigma) A^sigma(1)_(rho(1)) B^(rho(1))_(1) dots.c A^sigma(n)_(rho(n)) B^(rho(n))_(n)\
+        &= sum_(rho in S_n) sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n A^sigma(j)_(rho(j)) B^(rho(j))_j\
+        &= sum_(rho in S_n) sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n A^sigma(rho^(-1)(j))_(j) B^(j)_(rho^(-1)(j)).
+      $
+      Now, consider the determinant of $bold(A)$ and $bold(B)$, we have
+      $
+        det(bold(A)) det(bold(B)) &= (sum_(tau in S_n) "sgn"(tau) product_(j = 1)^n A^(tau(j))_j) (sum_(upsilon in S_n) "sgn"(upsilon) product_(k = 1)^n B^upsilon(k)_k)\
+        &= sum_(tau in S_n) sum_(upsilon in S_n) "sgn"(tau) "sgn"(upsilon) product_(j = 1)^n A^tau(j)_j product_(k = 1)^n B^upsilon(k)_k\
+      $
+      Since $j$, $tau(j)$, $k$, and $upsilon(k)$ iterates through the same set ${1, dots.c, n}$, for any particular
+      $
+        product_(j = 1)^n A^tau(j)_j product_(k = 1)^n B^upsilon(k)_k,
+      $
+      there is a way to rearrange the product, so that it can be expressed as
+      $
+        product_(j = 1)^n A^tau(j)_(j) B^(j)_(upsilon^(-1)(j)).
+      $
+      Hence, the sum can be rearranged as follows:
+      $
+        det(bold(A)) det(bold(B)) = sum_(upsilon in S_n) sum_(tau in S_n) "sgn"(tau) "sgn"(upsilon) product_(j = 1)^n A^tau(j)_(j) B^(j)_(upsilon^(-1)(j)).
+      $
+      Let $rho = upsilon$ and $tau = sigma compose rho^(-1)$, then
+      $
+        det(bold(A)) det(bold(B)) = det(bold(A) bold(B)),
+      $
+      if we can show that
+      $
+        "sgn"(tau) "sgn"(upsilon) = "sgn"(sigma).
+      $
+      Since $tau compose rho = tau compose upsilon = sigma$, it means that if it takes $m_1$ swaps to swap $tau$ to the right order and it takes $m_2$ swaps to swap $rho$ or $upsilon$ to the right order, then there is a way to swap $sigma$ to the right order in $m_1 + m_2$ swaps. One can verify that
+      $
+        "sgn"(tau) "sgn"(upsilon) = "sgn"(sigma)
+      $
+      by listing out all the possible parity of $m_1$ and $m_2$ (e.g. if $m_1$ is odd and $m_2$ is even, then $m_1 + m_2$ is odd). This shows that
+      $
+        det(bold(A)) det(bold(B)) = det(bold(A) bold(B)).
+      $
+      #align(right)[$qed$]
+
+    ]
   ]
 ]
