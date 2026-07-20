@@ -715,3 +715,214 @@ This is called the #concept[Leibniz formula] for the determinant of a matrix.
     ]
   ]
 ]
+
+#section(convention, subtitle: [Determinant of a Matrix])[
+  Let $bold(A)$ be a square matrix of size $n times n$, its determinant can be written as
+  $
+    det mat(
+    A_1^1, dots.c, A_n^1;
+    dots.v, dots.down, dots.v;
+    A_1^n, dots.c, A_n^n
+  ) = mat(delim: "|",
+    A_1^1, dots.c, A_n^1;
+    dots.v, dots.down, dots.v;
+    A_1^n, dots.c, A_n^n
+  )
+  $
+]
+Writing the determinant in the above form makes the computation to be easily visualized.
+
+#section(corollary, subtitle: [Determinant of Matrix That Is Partially Identity])[
+  Let
+  $
+    bold(M) = mat(
+    1, 0, dots.c, 0, 0;
+    0, A_1^1, dots.c, A_n^1, 0;
+    dots.v, dots.v, dots.down, dots.v, dots.v;
+    0, A_1^n, dots.c, A_n^n, 0;
+    0, 0, dots.c, 0, 1
+    )
+    " and "
+    bold(N) = mat(
+      A_1^1, dots.c, A_n^1;
+      dots.v, dots.down, dots.v;
+      A_1^n, dots.c, A_n^n
+    )
+  $
+  then $det(bold(M)) = det(bold(N))$.
+  #section(proof)[
+    $
+      det(bold(M)) = sum_(sigma in S_(n+2)) "sgn"(sigma) product_(j = 1)^(n+2) M^sigma(j)_j
+    $
+    Due to how $bold(M)$ is defined, 
+    $
+      product_(j = 1)^(n+2) M^sigma(j)_j != 0
+    $
+    only if $sigma(1) = 1$ and $sigma(n+2) = n+2$. Consider the set of all permutations
+    $
+      S'_(n+2) = {sigma in S_(n+2) | sigma(1) = 1, sigma(n+2) = n+2}.
+    $
+    One can easily show that there is a bijection between $S_n$ and $S'_(n+2)$. That is, for every $sigma in S'_(n+2)$ there is a unique $tau in S_n$ that corresponds to $sigma$. This such $tau$ is given by
+    $
+      tau(x) = sigma(x + 1) - 1, quad "for" x in {1, dots.c, n}.
+    $
+    Hence, we can rewrite the sum over $S'_(n+2)$ as a sum over $S_n$:
+    $
+      det(bold(M)) =& sum_(sigma in S'_(n+2)) "sgn"(sigma) product_(j = 1)^(n+2) M^sigma(j)_j\
+      =& sum_(sigma in S'_(n+2)) "sgn"(sigma) M^1_1 (product_(j = 2)^(n+1) M^sigma(j)_j) M^(n+2)_(n+2)\
+      =& sum_(sigma in S'_(n+2)) "sgn"(sigma) product_(j = 2)^(n+1) M^sigma(j)_j\
+      =& sum_(tau in S_n) "sgn"(tau) product_(j = 1)^n A^tau(j)_j = det(bold(N)).
+    $
+    #align(right)[$qed$]
+  ]
+]
+
+#section(corollary, subtitle: [Row and Column Swapping])[
+  Let $bold(A)$ be a square matrix, and $bold(A)'$ be a matrix obtained by swapping two rows or two columns of $bold(A)$. Then we have
+  $
+    det(bold(A)') = - det(bold(A)).
+  $
+  #section(proof)[
+    Swapping two columns is allowed by the definition of the determinant and it results in a change of sign due to the antisymmetric property of the determinant. Swapping two rows is equivalent to swapping two columns of the transpose of $bold(A)$, which also results in a change of sign.
+    #align(right)[$qed$]
+  ]
+]
+
+One method to compute the determinant of a matrix is to perform what is called #concept[Laplace expansion] or #concept[cofactor expansion]. The idea is to expand the determinant of a matrix into a sum of determinants of smaller matrices. This can be done by expanding along any row or column of the matrix. It relies on the multilinearity of the determinant and the antisymmetric property of the determinant. Consider the square matrix $bold(A)$, 
+$
+  det(bold(A)) = det(A_1, dots.c, A_n).
+$
+Consider the $j$-th column of $bold(A)$, we can expand the determinant of $bold(A)$ as follows:
+$
+  det(A_1, dots.c, sum_(i = 1)^n A_j^i e_i, dots.c, A_n) &= sum_(i = 1)^n A_j^i det(A_1, dots.c, e_i, dots.c, A_n)\
+  &= sum_(i = 1)^n A_j^i det(sum_(k = 1, k != i)^n A_1^k e_k, dots.c, e_i, dots.c, sum_(k = 1, k != i)^n A_n^k e_k).
+$
+Notice that
+$
+  det(sum_(k = 1, k != i)^n A_1^k e_k, dots.c, e_i, dots.c, sum_(k = 1, k != i)^n A_n^k e_k) = mat(delim:"|",
+    A_1^1, dots.c, 0, dots.c, A_n^1;
+    dots.v, dots.down, dots.v, dots.down, dots.v;
+    0, dots.c, 1, dots.c, 0;
+    dots.v, dots.down, dots.v, dots.down, dots.v;
+    A_1^n, dots.c, 0, dots.c, A_n^n
+  )
+$
+Since $1$ is located at the $i$-th row and $j$-th column of the matrix above, it takes $i - 1$ row swaps and $j - 1$ column swaps to swap the $1$ to the top left corner of the matrix. That is a total of $i + j - 2$ swaps, since the determinant changes sign for each swap, we have
+$
+  mat(delim:"|",
+    A_1^1, dots.c, 0, dots.c, A_n^1;
+    dots.v, dots.down, dots.v, dots.down, dots.v;
+    0, dots.c, 1, dots.c, 0;
+    dots.v, dots.down, dots.v, dots.down, dots.v;
+    A_1^n, dots.c, 0, dots.c, A_n^n
+  ) = (-1)^(i + j) mat(delim:"|",
+    1, 0, dots.c, 0;
+    0, A_1^1, dots.c, A_n^1;
+    dots.v, dots.v, dots.down, dots.v;
+    0, A_1^n, dots.c, A_n^n
+  ),
+$
+which is equivalent to taking the determinant of the matrix obtained by removing the $i$-th row and $j$-th column of $bold(A)$. Hence, we have
+$
+  mat(delim:"|",
+    A_1^1,dots.c, A_n^1;
+    dots.v, dots.down, dots.v;
+    A_1^n, dots.c, A_n^n
+  ) = sum_(i = 1)^n (-1)^(i + j) A_j^i underbrace(mat(delim:"|",
+    A_1^1,dots.c, A_n^1;
+    dots.v, dots.down, dots.v;
+    A_1^n, dots.c, A_n^n
+  ), i"-th row and "\ j"-th column removed").
+$
+
+
+#section(theorem, subtitle: [Determinant and Invertibility])[
+  Let $bold(A)$ be a square matrix, then $bold(A)$ is invertible if and only if $det(bold(A)) != 0$.
+  #section(proof)[
+    Let's first show that if $bold(A)$ is invertible, then $det(bold(A)) != 0$.\
+    If $bold(A)$ is invertible, then there exists a matrix $bold(B)$ such that $bold(A) bold(B) = bold(I)$, where $bold(I)$ is the identity matrix.
+    Therefore, we have
+    $
+      det(bold(A) bold(B)) = det(bold(A)) det(bold(B)) = det(bold(I)) = 1.
+    $
+    Since both $bold(A)$ and $bold(B)$ are square matrices, their determinants are defined. Hence, $det(bold(A)) != 0$.
+
+    Now, let's show that if $det(bold(A)) != 0$, then $bold(A)$ is invertible by contradiction. Suppose that $det(bold(A)) != 0$ but $bold(A)$ has dependent columns.
+    $
+      det(bold(A)) = det(A_1, dots.c, A_n),
+    $
+    where $A_1, dots.c, A_n$ are the columns of $bold(A)$. If $bold(A)$ has dependent columns, then there exists a column $A_i$ that can be expressed as a linear combination of the other columns. Hence, we can express $A_i$ as
+    $
+      A_i = sum_(j != i) a_j A_j.
+    $
+    Then the determinant of $bold(A)$ can be expressed as
+    $
+      det(A_1, dots.c, A_i, dots.c, A_n) =& det(A_1, dots.c, sum_(j != i) a_j A_j, dots.c, A_n)\
+      =& sum_(j != i) a_j det(A_1, dots.c, A_j, dots.c, A_n).
+    $
+    For any $j != i$, $A_j$ appears twice in the determinant, which means that
+    $
+      det(bold(A)) = sum_(j != i) a_j det(A_1, dots.c, A_j, dots.c, A_n) = 0.
+    $
+    This contradicts the assumption that $det(bold(A)) != 0$. Hence, if $det(bold(A)) != 0$, then $bold(A)$ is invertible.
+    #align(right)[$qed$]
+  ]
+]
+
+#section(definition, subtitle: [Characteristic Polynomial])[
+  Let $T$ be a linear operator on a vector space $V$ with the basis $frak(B)$. The #concept[characteristic polynomial] of $T$ is defined as
+  $
+    chi(lambda) = p_T (lambda) = det(lambda bold(I) - [bold(T)]_frak(B))
+  $
+  where $bold(I)$ is the identity matrix. The characteristic polynomial of $T$ is a polynomial of degree $n$, where $n$ is the dimension of $V$.\
+]
+
+Notice that one can write the characteristic polynomial of $T$ in the following form:
+$
+  chi(lambda) = product_i (lambda - lambda_i)^(m_i),
+$
+where $lambda_i$ are the distinct eigenvalues of $T$ and $m_i$ is the #concept[algebraic multiplicity] of the eigenvalue $lambda_i$. The algebraic multiplicity of an eigenvalue is the number of times it appears as a root of the characteristic polynomial. While the #concept[geometric multiplicity] of an eigenvalue is the dimension of the eigenspace associated with that eigenvalue.
+
+#section(theorem, subtitle: [Geometric Multiplicity and Algebraic Multiplicity])[
+  Let $n_i$ be the geometric multiplicity of the eigenvalue $lambda_i$ and $m_i$ be the algebraic multiplicity of the eigenvalue $lambda_i$. Then we have
+  $
+    1 <= n_i <= m_i.
+  $
+  #section(proof)[
+    Let's first show that $1 <= n_i$. If $lambda_i$ is an eigenvalue of $T$, then the subspace $E_lambda_i$ is a subspace of $V$ with at least one non-zero vector. This means that the basis of $E_lambda_i$ has at least one vector, which implies that the dimension of $E_lambda_i$ is at least $1$. Hence, we have $1 <= n_i$.\
+
+    Now, let's show that $n_i <= m_i$. Let's choose a basis from the eigenspace $E_lambda_i$ and extend it to a basis of $V$, let's denote this basis as $frak(B) = {e_1, dots.c, e_n}$, where the first $n_i$ vectors are the basis of $E_lambda_i$.\
+    Since we chose $e_1, dots.c, e_(n_i)$ from $E_lambda_i$, we have
+    $
+      [bold(T)]_frak(B) e_k = lambda_i e_k,
+    $
+    for $k = 1, dots.c, n_i$. Hence, the first $n_i$ columns of the matrix $[bold(T)]_frak(B)$ are in the form of $lambda_i e_k$. Consider the matrix $bold(T)' = lambda bold(I) - [bold(T)]_frak(B)$, it has the following form:
+    $
+      lambda bold(I) - [bold(T)]_frak(B) = mat(
+        lambda - lambda_i, 0, dots.c, 0, *, dots.c, *;
+        0, lambda - lambda_i, dots.c, 0, *, dots.c, *;
+        dots.v, dots.v, dots.down, dots.v, dots.v, dots.down, dots.v;
+        0, 0, dots.c, lambda - lambda_i, *, dots.c, *;
+        dots.v, dots.v, dots.down, dots.v, dots.v, dots.down, dots.v;
+        0, 0, dots.c, 0, *, dots.c, lambda - *
+      ).
+    $
+    Now, let's consider the characteristic polynomial of $T$, we have
+    $
+      chi(lambda) = det(lambda bold(I) - [bold(T)]_frak(B)) = det(bold(T)') = sum_(sigma in S_n) "sgn"(sigma) product_(j = 1)^n T'^(sigma(j))_j.
+    $
+    However, due the shape of $bold(T)'$,
+    $
+      product_(j = 1)^n T'^(sigma(j))_j
+    $
+    is non-zero only if
+    $
+      sigma(j) = j "for" j = 1, dots.c, n_i.
+    $
+    Let's denote the set of all permutations $sigma$ such that $sigma(j) = j$ for $j = 1, dots.c, n_i$ as $S_(n - n_i)$. Then we have
+    $
+      chi(lambda) = (lambda - lambda_i)^(n_i) (sum_(sigma in S_(n - n_i)) "sgn"(sigma) product_(j = n_i + 1)^n T'^(sigma(j))_j).
+    $
+    This means that the characteristic polynomial of $T$ has the factor $(lambda - lambda_i)^(n_i)$, which implies that the algebraic multiplicity of the eigenvalue $lambda_i$ is at least $n_i$. Hence, we have $n_i <= m_i$.
+    #align(right)[$qed$]
+]]
